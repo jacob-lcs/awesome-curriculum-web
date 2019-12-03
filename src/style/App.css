@@ -1,0 +1,22 @@
+@font-face{
+  font-family: 'HYZhengYuan';
+  src: url('../assets/font/HYZhengYuan-45W-2.otf');
+}
+
+body {
+  font-family: 'HYZhengYuan', Courier, monospace !important;
+}
+::-webkit-scrollbar {
+  width: 8px;
+  height: 6px;
+}
+::-webkit-scrollbar-thumb {
+  min-height: 150px;
+  min-width: 150px;
+  background: rgb(207, 207, 207);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-track-piece {
+  background-color: rgb(244, 244, 244);
+  margin: 0px;
+}

@@ -1,0 +1,13 @@
+{
+  "extends": ["tslint:latest", "tslint-react"],
+  "rules": {
+    "quotemark": [true, "single"],
+    "no-console": [false, "warn"],
+    "jsx-no-multiline-js": false,
+    "jsx-wrap-multiline": false,
+    "jsx-alignment": false
+  },
+  "compilerOptions": {
+    "jsx": "react"
+  }
+}

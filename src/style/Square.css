@@ -1,0 +1,15 @@
+.square{
+    width: 98%;
+    text-align: center;
+    margin: 0 1% 0 1%;
+}
+.square tr{
+    height: 70px;
+}
+tr,th,td{
+    border: 1px solid #ccc;
+    font-weight: bold;
+}
+.square-week__name, .square-course__name{
+    user-select: none;
+}
