@@ -1,8 +1,11 @@
 import html2canvas from 'html2canvas';
 import React from 'react';
+import alertLoginForm from '../src/components/LoginForm/index';
+import { getUserInfo } from './api/user';
 import Head from './components/Head';
 import Square from './components/Square';
 import './style/App.css';
+import { getName, getToken } from './utils/auth';
 
 // const App: React.FC = ()
 class App extends React.Component {
@@ -44,6 +47,19 @@ class App extends React.Component {
       const filename = '课表' + (new Date()).getTime() + '.' + type;
       saveFile(imgData, filename);
     });
+  }
+
+  public componentDidMount() {
+    if (getName() && getToken()) {
+      const data = {
+        token: getToken(),
+      };
+      getUserInfo(data).then((response) => {
+        console.log(response);
+      });
+    } else {
+      alertLoginForm('', '', {});
+    }
   }
   public render() {
     return (

@@ -46,4 +46,5 @@
 .head__avatar{
     margin-top: -5px;
     margin-left: 10px;
+    cursor: pointer;
 }

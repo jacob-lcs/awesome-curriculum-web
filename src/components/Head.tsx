@@ -10,6 +10,7 @@ interface IProps {
 
 interface IState {
     visible: boolean;
+    headMessage: string;
 }
 
 const { Header } = Layout;
@@ -18,6 +19,7 @@ class Head extends React.Component<IProps, IState> {
         super(props);
         this.state = {
             visible: false,
+            headMessage: '',
         };
     }
 
@@ -59,7 +61,9 @@ class Head extends React.Component<IProps, IState> {
                             <Icon type='hourglass' className='head__item-icon' />
                         </div>
                     </Popover>
-                    <Avatar src='https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png' className='head__avatar' />
+                    <Popover content={this.state.headMessage} placement='bottom'>
+                        <Avatar src='https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png' className='head__avatar' />
+                    </Popover>
                 </Header>
                 <Drawer
                     title='我的菜单'
@@ -67,7 +71,7 @@ class Head extends React.Component<IProps, IState> {
                     closable={false}
                     onClose={this.onDrawerClose}
                     visible={this.state.visible}
-                    >
+                >
                     <Draw />
                 </Drawer>
             </div>

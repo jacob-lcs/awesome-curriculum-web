@@ -5,7 +5,8 @@
     "no-console": [false, "warn"],
     "jsx-no-multiline-js": false,
     "jsx-wrap-multiline": false,
-    "jsx-alignment": false
+    "jsx-alignment": false,
+    "object-literal-sort-keys": false
   },
   "compilerOptions": {
     "jsx": "react"

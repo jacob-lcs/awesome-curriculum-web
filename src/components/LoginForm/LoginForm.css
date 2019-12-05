@@ -1,0 +1,34 @@
+.container{
+  width: 450px;
+  min-height: 350px;
+  background-color: white;
+  border-radius: 5px;
+}
+.ant-tabs-nav-scroll{
+  font-size: 20px;
+  text-align: center;
+}
+.login-form {
+  max-width: 300px;
+  margin: 0 auto;
+}
+.login-form-forgot {
+  float: right;
+  cursor: pointer;
+}
+.login-form-forgot:hover{
+  color: #1890FF;
+}
+.login-form-register{
+  cursor: pointer;
+}
+.login-form-register:hover{
+  color: #1890FF;
+}
+.verification-code-input{
+  width: 170px;
+  margin-left: 25px;
+}
+.login-form-button {
+  width: 100%;
+}
