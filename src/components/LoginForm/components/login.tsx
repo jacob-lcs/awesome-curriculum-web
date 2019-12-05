@@ -21,8 +21,13 @@ class Login extends React.Component<IProps, IState> {
         email: values.username,
         password: values.password,
       };
-      login(data).then(() => {
+      login(data).then((response: any) => {
+        setToken(response.token);
+        setName(values.username);
         message.success('登陆成功！');
+        window.location.reload();
+      }).catch((error) => {
+        console.error(error);
       });
     });
   }
