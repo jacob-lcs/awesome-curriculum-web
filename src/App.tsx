@@ -56,6 +56,8 @@ class App extends React.Component {
       };
       getUserInfo(data).then((response) => {
         console.log(response);
+      }).catch((error) => {
+        console.error(error);
       });
     } else {
       alertLoginForm('', '', {});
