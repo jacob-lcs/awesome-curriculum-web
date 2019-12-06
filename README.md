@@ -1,44 +1,31 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<p align="center"><img src="./readme-assets/logo.png"></p>
+<p align="center"><g-emoji class="g-emoji" alias="fire" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f525.png">🔥</g-emoji>课程助手web端-React版</p>
 
-## Available Scripts
+## 项目说明
 
-In the project directory, you can run:
+截止目前我是一名计算机学院的大四学生，马上就要毕业，心想着能够做一些有利于学生的工具，于是就萌生了这个想法，做一个课程助手。
+这个软件并不仅仅是一个课程助手，而是围绕课程给大学生做一个时间管理应用，后续会陆续加入打卡、日志提醒等功能。
 
-### `yarn start`
+## 项目构建方法
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+1. 安装依赖
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+```bash
+yarn install
+```
 
-### `yarn test`
+2. 运行项目
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```bash
+yarn start
+```
 
-### `yarn build`
+## 项目依赖
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+| 名称          | 版本       | 说明                    |
+| ------------- | ---------- | ----------------------- |
+| `antd`        | :car:3.26.0     | 前端组件库              |
+| `axios`       | :car:0.19.0     | 网络请求                |
+| `js-cookie`   | :car:2.2.1      | `cookie` 操作           |
+| `html2canvas` | :car:1.0.0-rc.5 | 将 `dom` 元素保存为图片 |
+| `typescript`  | :car:3.7.2      | `typescript` 语言支持   |
