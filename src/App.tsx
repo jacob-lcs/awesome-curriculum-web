@@ -1,7 +1,6 @@
 import html2canvas from 'html2canvas';
 import React from 'react';
 import alertLoginForm from '../src/components/LoginForm/index';
-import { getUserInfo } from './api/user';
 import Head from './components/Head';
 import Square from './components/Square';
 import './style/App.css';
@@ -50,16 +49,7 @@ class App extends React.Component {
   }
 
   public componentDidMount() {
-    if (getName() && getToken()) {
-      const data = {
-        token: getToken(),
-      };
-      getUserInfo(data).then((response) => {
-        console.log(response);
-      }).catch((error) => {
-        console.error(error);
-      });
-    } else {
+    if (!getName() || !getToken()) {
       alertLoginForm('', '', {});
     }
   }

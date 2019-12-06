@@ -1,13 +1,5 @@
 import request from '../utils/request';
 
-const getUserInfo = (params: object) => {
-  return request({
-    method: 'get',
-    url: '/api/user/getUserInfo',
-    params,
-  });
-};
-
 const registerCode = (data: object) => {
   return request({
     method: 'post',
@@ -33,7 +25,6 @@ const login = (data: object) => {
 };
 
 export {
-  getUserInfo,
   registerCode,
   register,
   login,
