@@ -1,3 +1,4 @@
+import { removeInfo } from '../utils/auth';
 import request from '../utils/request';
 
 const registerCode = (data: object) => {
@@ -24,8 +25,13 @@ const login = (data: object) => {
   });
 };
 
+const logout = () => {
+  removeInfo();
+};
+
 export {
   registerCode,
   register,
   login,
+  logout,
 };

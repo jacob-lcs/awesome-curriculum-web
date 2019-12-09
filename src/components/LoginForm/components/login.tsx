@@ -1,4 +1,4 @@
-import { Button, Checkbox, Form, Icon, Input, message} from 'antd';
+import { Button, Checkbox, Form, Icon, Input, message } from 'antd';
 import React from 'react';
 import { login } from '../../../api/user';
 import { setName, setToken } from '../../../utils/auth';
@@ -8,11 +8,17 @@ interface IProps {
 }
 
 interface IState {
-  name: string;
-  activeKey: string;
+  remember: boolean;
 }
 
 class Login extends React.Component<IProps, IState> {
+
+  constructor(props: any) {
+    super(props);
+    this.state = {
+      remember: true,
+    };
+  }
 
   public handleSubmit = (e: any) => {
     e.preventDefault();
@@ -22,14 +28,27 @@ class Login extends React.Component<IProps, IState> {
         password: values.password,
       };
       login(data).then((response: any) => {
-        setToken(response.token);
-        setName(values.username);
+        let options = {};
+        if (this.state.remember) {
+          options = {
+            expires: 15,
+          };
+        }
+        setToken(response.token, options);
+        setName(values.username, options);
         message.success('登陆成功！');
         window.location.reload();
       }).catch((error) => {
         console.error(error);
       });
     });
+  }
+
+  public onRememberChange = (e: any) => {
+    this.setState({
+      remember: e.target.checked,
+    });
+    console.log(this.state.remember);
   }
   public render() {
     const { getFieldDecorator } = this.props.form;
@@ -60,14 +79,13 @@ class Login extends React.Component<IProps, IState> {
           {getFieldDecorator('remember', {
             valuePropName: 'checked',
             initialValue: true,
-          })(<Checkbox>记住我</Checkbox>)}
-          <span className='login-form-forgot'>
+          })(<Checkbox onChange={this.onRememberChange}>记住我</Checkbox>)}
+          {/* <span className='login-form-forgot'>
             忘记密码
-              </span>
+          </span> */}
           <Button type='primary' htmlType='submit' className='login-form-button'>
             登录
               </Button>
-          Or <span className='login-form-register'>现在去注册!</span>
         </Form.Item>
       </Form>
     );

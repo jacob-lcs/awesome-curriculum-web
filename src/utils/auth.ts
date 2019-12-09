@@ -7,9 +7,9 @@ export function getToken() {
   return Cookies.get(TokenKey);
 }
 
-export function setToken(token: string) {
+export function setToken(token: string, options?: object) {
   // return Cookies.set(TokenKey, token)
-  document.cookie = `${TokenKey}=${token}`;
+  Cookies.set(TokenKey, token, options);
   return true;
 }
 
@@ -17,8 +17,8 @@ export function getName() {
   return Cookies.get(TokenName);
 }
 
-export function setName(name: string) {
-  return Cookies.set(TokenName, name);
+export function setName(name: string, options?: object) {
+  return Cookies.set(TokenName, name, options);
 }
 
 export function removeInfo() {

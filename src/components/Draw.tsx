@@ -1,14 +1,10 @@
 import React from 'react';
 
-interface IProps {
-  // visible: boolean;
-}
-
 interface IState {
   visible: boolean;
 }
 
-class Draw extends React.Component<IProps, IState> {
+class Draw extends React.Component<{}, IState> {
   constructor(props: any) {
     super(props);
     this.state = {

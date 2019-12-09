@@ -2,16 +2,12 @@ import React from 'react';
 
 import '../style/Square.css';
 
-interface IProps {
-  className: string;
-}
-
 interface IState {
   course: string[];
   week: string[];
 }
 
-class Square extends React.Component<IProps, IState> {
+class Square extends React.Component<{}, IState> {
   constructor(props: any) {
     super(props);
     this.state = {
