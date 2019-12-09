@@ -6,6 +6,9 @@
 body {
   font-family: 'HYZhengYuan', Courier, monospace !important;
 }
+#root, .App{
+  height: 100%;
+}
 ::-webkit-scrollbar {
   width: 8px;
   height: 6px;

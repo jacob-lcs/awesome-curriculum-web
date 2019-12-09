@@ -2,51 +2,50 @@ import React from 'react';
 
 import './Square.css';
 
-interface IState {
-  course: string[];
-  week: string[];
-}
+// interface IState {
+//   course: string[];
+//   week: string[];
+// }
 
-class Square extends React.Component<{}, IState> {
-  constructor(props: any) {
-    super(props);
-    this.state = {
-      course: ['第一节课', '第二节课', '第三节课', '第四节课', '第五节课', '第六节课', '第七节课',
-         '第八节课', '第九节课', '第十节课', '第十一节课', '第十二节课', '第十三节课'],
-      week: ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期七'],
-    };
-  }
+class Square extends React.Component<{}, {}> {
 
   public render() {
-    const course = this.state.course;
     return (
-      <div>
-        <table className='square'>
-          <tbody>
-            <tr className='square-week__name'>
-              <td/>
-              <td>{this.state.week[0]}</td>
-              <td>{this.state.week[1]}</td>
-              <td>{this.state.week[2]}</td>
-              <td>{this.state.week[3]}</td>
-              <td>{this.state.week[4]}</td>
-              <td>{this.state.week[5]}</td>
-              <td>{this.state.week[6]}</td>
-            </tr>
-            {course.map((name) =>
-              <tr key={name}>
-                <td className='square-course__name'>{name}</td>
-                <td className='courseItem'/>
-                <td className='courseItem'/>
-                <td className='courseItem'/>
-                <td className='courseItem'/>
-                <td className='courseItem'/>
-                <td className='courseItem'/>
-                <td className='courseItem'/>
-              </tr>,
-            )}
-          </tbody>
-        </table>
+      <div className='square-container'>
+        <div className='week'>
+          <div className='week-item'/>
+          <div className='week-item'>星期一</div>
+          <div className='week-item'>星期二</div>
+          <div className='week-item'>星期三</div>
+          <div className='week-item'>星期四</div>
+          <div className='week-item'>星期五</div>
+          <div className='week-item'>星期六</div>
+          <div className='week-item'>星期日</div>
+        </div>
+        <div className='square'>
+          <div className='square-col'>
+            <div className='square-col-course'>第一节课</div>
+            <div className='square-col-course'>第二节课</div>
+            <div className='square-col-course'>第三节课</div>
+            <div className='square-col-course'>第四节课</div>
+            <div className='square-col-course'>第五节课</div>
+            <div className='square-col-course'>第六节课</div>
+            <div className='square-col-course'>第七节课</div>
+            <div className='square-col-course'>第八节课</div>
+            <div className='square-col-course'>第九节课</div>
+            <div className='square-col-course'>第十节课</div>
+            <div className='square-col-course'>第十一节课</div>
+            <div className='square-col-course'>第十二节课</div>
+            <div className='square-col-course'>第十三节课</div>
+          </div>
+          <div className='square-col'/>
+          <div className='square-col'/>
+          <div className='square-col'/>
+          <div className='square-col'/>
+          <div className='square-col'/>
+          <div className='square-col'/>
+          <div className='square-col'/>
+        </div>
       </div>
     );
   }
