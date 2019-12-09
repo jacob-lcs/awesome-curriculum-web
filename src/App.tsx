@@ -10,7 +10,7 @@ import { getName, getToken } from './utils/auth';
 class App extends React.Component {
   public downloadImg = () => {
     const element = document.querySelector('.square') as HTMLElement;
-    html2canvas(element).then((canvas: any) => {
+    html2canvas(element.parentNode as HTMLElement).then((canvas: any) => {
       /**
        * 获取mimeType
        * @param  {String} type the old mime-type
@@ -57,7 +57,7 @@ class App extends React.Component {
     return (
       <div className='App'>
         <Head downloadImg={this.downloadImg} />
-        <Square className='square'/>
+        <Square />
       </div>
     );
   }
