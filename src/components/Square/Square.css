@@ -13,3 +13,6 @@ tr,th,td{
 .square-week__name, .square-course__name{
     user-select: none;
 }
+.courseItem{
+    cursor: pointer;
+}

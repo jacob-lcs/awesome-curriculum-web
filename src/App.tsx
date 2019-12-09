@@ -1,8 +1,8 @@
 import html2canvas from 'html2canvas';
 import React from 'react';
 import alertLoginForm from '../src/components/LoginForm/index';
-import Head from './components/Head';
-import Square from './components/Square';
+import Head from './components/Head/Head';
+import Square from './components/Square/Square';
 import './style/App.css';
 import { getName, getToken } from './utils/auth';
 

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import '../style/Square.css';
+import './Square.css';
 
 interface IState {
   course: string[];
@@ -36,13 +36,13 @@ class Square extends React.Component<{}, IState> {
             {course.map((name) =>
               <tr key={name}>
                 <td className='square-course__name'>{name}</td>
-                <td/>
-                <td/>
-                <td/>
-                <td/>
-                <td/>
-                <td/>
-                <td/>
+                <td className='courseItem'/>
+                <td className='courseItem'/>
+                <td className='courseItem'/>
+                <td className='courseItem'/>
+                <td className='courseItem'/>
+                <td className='courseItem'/>
+                <td className='courseItem'/>
               </tr>,
             )}
           </tbody>

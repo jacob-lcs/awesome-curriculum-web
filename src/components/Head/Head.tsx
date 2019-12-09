@@ -1,9 +1,9 @@
 import { Avatar, Drawer, Icon, Layout, Popconfirm, Popover } from 'antd';
 import React from 'react';
-import { logout } from '../api/user';
-import Draw from './Draw';
+import { logout } from '../../api/user';
+import Draw from '../Draw/Draw';
 
-import '../style/Head.css';
+import './Head.css';
 
 interface IProps {
   downloadImg: any;
@@ -51,7 +51,7 @@ class Head extends React.Component<IProps, IState> {
             </div>
           </Popover>
           <div className='head__item img'>
-            <img src={require('../assets/img/logo.png')} alt='课程助手' className='head__name-img' />
+            <img src={require('../../assets/img/logo.png')} alt='课程助手' className='head__name-img' />
             <span className='head__name-text'>课程助手</span>
           </div>
           <Popover content='保存课表' placement='bottom'>
