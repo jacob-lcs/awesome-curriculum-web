@@ -48,7 +48,6 @@ class Login extends React.Component<IProps, IState> {
     this.setState({
       remember: e.target.checked,
     });
-    console.log(this.state.remember);
   }
   public render() {
     const { getFieldDecorator } = this.props.form;

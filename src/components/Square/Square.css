@@ -1,6 +1,6 @@
 .square-container{
-  padding-left: 5px;
-  padding-right: 5px;
+  margin-left: 5px;
+  margin-right: 5px;
 }
 
 .week{
@@ -31,6 +31,7 @@
   image-rendering: pixelated;
   height: 100%;
   user-select: none;
+  position: relative;
 }
 .square-col-course{
   height: 44px;
@@ -38,4 +39,8 @@
   justify-content: center;
   align-items: center;
   font-weight: bold;
+}
+
+.course-container.fill{
+  height: 0px;
 }

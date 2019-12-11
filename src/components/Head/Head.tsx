@@ -1,6 +1,7 @@
 import { Avatar, Drawer, Icon, Layout, Popconfirm, Popover } from 'antd';
 import React from 'react';
 import { logout } from '../../api/user';
+import { removeInfo } from '../../utils/auth';
 import Draw from '../Draw/Draw';
 
 import './Head.css';
@@ -37,7 +38,11 @@ class Head extends React.Component<IProps, IState> {
     });
   }
   public logout = () => {
-    logout();
+    logout().then(() => {
+      removeInfo();
+    }).catch((error) => {
+      console.error(error);
+    });
     window.location.reload();
   }
 

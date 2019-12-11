@@ -1,6 +1,7 @@
 import html2canvas from 'html2canvas';
 import React from 'react';
 import alertLoginForm from '../src/components/LoginForm/index';
+import Footer from './components/Footer/Footer';
 import Head from './components/Head/Head';
 import Square from './components/Square/Square';
 import './style/App.css';
@@ -9,8 +10,8 @@ import { getName, getToken } from './utils/auth';
 // const App: React.FC = ()
 class App extends React.Component {
   public downloadImg = () => {
-    const element = document.querySelector('.square') as HTMLElement;
-    html2canvas(element.parentNode as HTMLElement).then((canvas: any) => {
+    const element = document.getElementsByClassName('square-container')[0] as HTMLElement;
+    html2canvas(element as HTMLElement).then((canvas: any) => {
       /**
        * 获取mimeType
        * @param  {String} type the old mime-type
@@ -58,6 +59,7 @@ class App extends React.Component {
       <div className='App'>
         <Head downloadImg={this.downloadImg} />
         <Square />
+        <Footer />
       </div>
     );
   }

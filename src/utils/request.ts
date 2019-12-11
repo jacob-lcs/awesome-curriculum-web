@@ -4,9 +4,9 @@ import { getToken, removeInfo } from './auth';
 
 // create an axios instance
 const service = axios.create({
-  baseURL: 'http://127.0.0.1:3001', // url = base url + request url
+  baseURL: 'http://localhost:3001', // url = base url + request url
   timeout: 5000, // request timeout
-  // withCredentials: true, // send cookies when cross-domain requests
+  withCredentials: true, // send cookies when cross-domain requests
 });
 
 // request interceptor
@@ -48,8 +48,9 @@ service.interceptors.response.use(
     // if the custom code is not 20000, it is judged as an error.
     if (res.code !== 1) {
       message.error(res.message || 'Error');
-      if (res.code === -1) {
+      if (res.code === 0) {
         removeInfo();
+        window.location.reload();
       }
       return Promise.reject(new Error(res.message || 'Error'));
     } else {
