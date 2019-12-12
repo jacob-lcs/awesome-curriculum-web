@@ -1,6 +1,6 @@
 import { message } from 'antd';
 import axios from 'axios';
-import { getToken, removeInfo } from './auth';
+import { removeInfo } from './auth';
 
 // create an axios instance
 const service = axios.create({
@@ -13,17 +13,6 @@ const service = axios.create({
 service.interceptors.request.use(
   (config: any) => {
     // do something before request is sent
-    if (config.method === 'post') {
-      config.data = {
-        ...config.data,
-        token: getToken(),
-      };
-    } else if (config.method === 'get') {
-      config.params = {
-        ...config.params,
-        token: getToken(),
-      };
-    }
     return config;
   },
   (error: any) => {

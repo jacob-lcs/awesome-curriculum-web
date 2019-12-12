@@ -1,6 +1,6 @@
-import { Icon, Input, message, Modal } from 'antd';
+import { Icon, Input, message, Modal, Popconfirm } from 'antd';
 import React from 'react';
-import { addCourse, updateCourse } from '../../api/course';
+import { addCourse, deleteCourse, updateCourse } from '../../api/course';
 import './CourseBlock.css';
 
 interface IProps {
@@ -42,9 +42,9 @@ class CourseBlock extends React.Component<IProps, IState> {
         display: 'none',
       },
       modalInfo: {
-        courseName: '',
-        courseRoom: '',
-        teacherName: '',
+        courseName: this.props.courseName,
+        courseRoom: this.props.courseRoom,
+        teacherName: this.props.teacherName,
       },
     };
   }
@@ -96,19 +96,6 @@ class CourseBlock extends React.Component<IProps, IState> {
       parentNode.style.display = 'none';
     }
 
-  }
-
-  public onMouseUp = () => {
-    this.setState({
-      modalInfo: {
-        courseName: this.state.courseName,
-        courseRoom: this.state.courseRoom,
-        teacherName: this.state.teacherName,
-      },
-    });
-    this.setState({
-      visible: true,
-    });
   }
 
   public changeInfo = () => {
@@ -164,6 +151,20 @@ class CourseBlock extends React.Component<IProps, IState> {
     });
   }
 
+  public deleteCourse = (arg: boolean) => {
+    const data = {
+      id: this.state.id,
+      name: this.state.courseName,
+      all: arg,
+    };
+    deleteCourse(data).then((response) => {
+      message.success('删除成功');
+      window.location.reload();
+    }).catch((error) => {
+      console.error(error);
+    });
+  }
+
   public render() {
     return (
       <div className={`course-container ${this.props.className}`} ref={this.state.myRef}>
@@ -183,7 +184,15 @@ class CourseBlock extends React.Component<IProps, IState> {
           style={this.state.optionsStyle}
         >
           <Icon type='edit' title='编辑' onClick={this.changeInfo}/>
-          <Icon type='delete' title='删除'/>
+          <Popconfirm
+            title='请选择您的删除要求'
+            onConfirm={this.deleteCourse.bind(this, true)}
+            onCancel={this.deleteCourse.bind(this, false)}
+            okText='删除所有同名板块'
+            cancelText='只删除此板块'
+          >
+            <Icon type='delete' title='删除'/>
+          </Popconfirm>
           <Icon type='sound' title='进入群聊'/>
         </div>
         <Modal

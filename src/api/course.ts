@@ -8,6 +8,14 @@ const addCourse = (data: object) => {
   });
 };
 
+const deleteCourse = (data: object) => {
+  return request({
+    url: '/api/course/deleteCourse',
+    method: 'post',
+    data,
+  });
+};
+
 const queryCourse = () => {
   return request({
     url: '/api/course/queryCourse',
@@ -27,4 +35,5 @@ export {
   addCourse,
   queryCourse,
   updateCourse,
+  deleteCourse,
 };
