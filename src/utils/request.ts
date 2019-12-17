@@ -1,10 +1,10 @@
 import { message } from 'antd';
 import axios from 'axios';
-import { removeInfo } from './auth';
+import { getName, getToken, removeInfo } from './auth';
 
 // create an axios instance
 const service = axios.create({
-  baseURL: 'http://localhost:3001', // url = base url + request url
+  baseURL: 'http://47.102.117.126:3000', // url = base url + request url
   timeout: 5000, // request timeout
   withCredentials: true, // send cookies when cross-domain requests
 });
@@ -13,6 +13,10 @@ const service = axios.create({
 service.interceptors.request.use(
   (config: any) => {
     // do something before request is sent
+    config.params = {
+      ...config.params,
+      token: getToken(),
+    };
     return config;
   },
   (error: any) => {
@@ -37,7 +41,7 @@ service.interceptors.response.use(
     // if the custom code is not 20000, it is judged as an error.
     if (res.code !== 1) {
       message.error(res.message || 'Error');
-      if (res.code === 0) {
+      if (res.code === 0 && getName() && getToken()) {
         removeInfo();
         window.location.reload();
       }

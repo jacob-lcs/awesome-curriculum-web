@@ -42,7 +42,7 @@ class Square extends React.Component<{}, IState> {
         const top = 44 * item.start;
         this.insertCourseBlock(target, height, top, courseInfo);
       }
-    });
+    }).catch((error) => console.error(error));
   }
 
   public onMouseMove = (e: any) => {
