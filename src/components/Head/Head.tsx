@@ -1,8 +1,8 @@
-import { Avatar, Drawer, Icon, Layout, Popconfirm, Popover } from 'antd';
+import { Avatar, Drawer, Icon, Layout, Modal, Popover } from 'antd';
 import React from 'react';
-import { logout } from '../../api/user';
-import { removeInfo } from '../../utils/auth';
+import { getAvatar } from '../../utils/auth';
 import Draw from '../Draw/Draw';
+import UserInfo from '../UserInfo/UserInfo';
 
 import './Head.css';
 
@@ -11,7 +11,8 @@ interface IProps {
 }
 
 interface IState {
-  visible: boolean;
+  drawVisible: boolean;
+  modalVisible: boolean;
 }
 
 const { Header } = Layout;
@@ -19,7 +20,8 @@ class Head extends React.Component<IProps, IState> {
   constructor(props: any) {
     super(props);
     this.state = {
-      visible: false,
+      drawVisible: false,
+      modalVisible: false,
     };
   }
 
@@ -29,21 +31,31 @@ class Head extends React.Component<IProps, IState> {
 
   public openDrawer = () => {
     this.setState({
-      visible: true,
+      drawVisible: true,
     });
   }
   public onDrawerClose = () => {
     this.setState({
-      visible: false,
+      drawVisible: false,
     });
   }
-  public logout = () => {
-    logout().then(() => {
-      removeInfo();
-    }).catch((error) => {
-      console.error(error);
+
+  /**
+   * modalCancle
+   */
+  public modalCancle = () => {
+    this.setState({
+      modalVisible: false,
     });
-    window.location.reload();
+  }
+
+  /**
+   * showUserModal
+   */
+  public showUserModal = () => {
+    this.setState({
+      modalVisible: true,
+    });
   }
 
   public render() {
@@ -64,33 +76,42 @@ class Head extends React.Component<IProps, IState> {
               <Icon type='cloud-download' className='head__item-icon' />
             </div>
           </Popover>
+          <Popover content='从教务系统导入' placement='bottom'>
+            <div className='head__item' onClick={this.downloadImg}>
+              <Icon type='api' className='head__item-icon'  />
+            </div>
+          </Popover>
           <Popover content='前往打卡' placement='bottom'>
             <div className='head__item'>
               <Icon type='hourglass' className='head__item-icon' />
             </div>
           </Popover>
-          <Popconfirm
-            title='确定退出登录吗？'
-            okText='Yes'
-            cancelText='No'
-            onConfirm={this.logout}
-            placement='bottom'
-          >
+          <div onClick={this.showUserModal}>
             <Avatar
-              src='https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg'
+              src={getAvatar()}
               className='head__avatar'
             />
-          </Popconfirm>
+          </div>
         </Header>
         <Drawer
           title='我的菜单'
           placement='left'
           closable={false}
           onClose={this.onDrawerClose}
-          visible={this.state.visible}
+          visible={this.state.drawVisible}
         >
           <Draw />
         </Drawer>
+
+        <Modal
+          visible={this.state.modalVisible}
+          onCancel={this.modalCancle}
+          centered={true}
+          footer={null}
+          className='userModal'
+        >
+          <UserInfo />
+        </Modal>
       </div>
     );
   }

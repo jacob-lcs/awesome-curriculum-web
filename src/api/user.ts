@@ -31,9 +31,18 @@ const logout = () => {
   });
 };
 
+const updateName = (data: object) => {
+  return request({
+    method: 'post',
+    url: '/api/user/updateName',
+    data,
+  });
+};
+
 export {
   registerCode,
   register,
   login,
   logout,
+  updateName,
 };

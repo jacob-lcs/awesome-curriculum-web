@@ -1,0 +1,32 @@
+.UserInfo-container{
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.UserInfo-name{
+  margin-top: 20px;
+  font-weight: bold;
+  font-size: 15px;
+}
+.UserInfo-name.edit{
+  margin-right: 5px;
+  width: 60%;
+}
+.UserInfo-email{
+  margin-top: 5px;
+  margin-bottom: 20px;
+}
+
+.UserInfo-avatar{
+  position: relative;
+}
+.upload{
+  opacity: 0;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  z-index: 9999;
+  left: 0;
+  cursor: pointer;
+}

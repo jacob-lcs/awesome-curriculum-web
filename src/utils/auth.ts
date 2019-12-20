@@ -1,7 +1,9 @@
 import Cookies from 'js-cookie';
 
 const TokenKey = 'CurriculumKey';
+const TokenEmail = 'CurriculumEmail';
 const TokenName = 'CurriculumName';
+const TokenAvatar = 'CurriculumAvatar';
 
 export function getToken() {
   return Cookies.get(TokenKey);
@@ -21,7 +23,25 @@ export function setName(name: string, options?: object) {
   return Cookies.set(TokenName, name, options);
 }
 
+export function getEmail() {
+  return Cookies.get(TokenEmail);
+}
+
+export function setEmail(name: string, options?: object) {
+  return Cookies.set(TokenEmail, name, options);
+}
+
+export function getAvatar() {
+  return Cookies.get(TokenAvatar);
+}
+
+export function setAvatar(name: string, options?: object) {
+  return Cookies.set(TokenAvatar, name, options);
+}
+
 export function removeInfo() {
   Cookies.remove(TokenKey);
+  Cookies.remove(TokenEmail);
+  Cookies.remove(TokenAvatar);
   return Cookies.remove(TokenName);
 }

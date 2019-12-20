@@ -6,6 +6,7 @@ import Head from './components/Head/Head';
 import Square from './components/Square/Square';
 import './style/App.css';
 import { getName, getToken } from './utils/auth';
+// import courses from './utils/getCourses/index';
 
 // const App: React.FC = ()
 class App extends React.Component {
@@ -53,6 +54,7 @@ class App extends React.Component {
     if (!getName() || !getToken()) {
       alertLoginForm('', '', {});
     }
+    // courses.getSHUCourses();
   }
   public render() {
     return (

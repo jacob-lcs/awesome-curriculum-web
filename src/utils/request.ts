@@ -6,7 +6,7 @@ import { getName, getToken, removeInfo } from './auth';
 const service = axios.create({
   baseURL: 'http://47.102.117.126:3000', // url = base url + request url
   timeout: 5000, // request timeout
-  withCredentials: true, // send cookies when cross-domain requests
+  // withCredentials: true, // send cookies when cross-domain requests
 });
 
 // request interceptor

@@ -1,7 +1,7 @@
 import { Button, Checkbox, Form, Icon, Input, message } from 'antd';
 import React from 'react';
 import { login } from '../../../api/user';
-import { setName, setToken } from '../../../utils/auth';
+import { setAvatar, setEmail, setName, setToken } from '../../../utils/auth';
 
 interface IProps {
   form: any;
@@ -24,7 +24,7 @@ class Login extends React.Component<IProps, IState> {
     e.preventDefault();
     this.props.form.validateFields((err: any, values: any) => {
       const data = {
-        email: values.username,
+        email: values.email,
         password: values.password,
       };
       login(data).then((response: any) => {
@@ -35,8 +35,10 @@ class Login extends React.Component<IProps, IState> {
           };
         }
         setToken(response.token, options);
-        setName(values.username, options);
-        message.success('登陆成功！');
+        setName(response.username, options);
+        setEmail(values.email, options);
+        setAvatar(`http://47.102.117.126:3000/${values.avatar}`, options);
+        message.success('登录成功！');
         window.location.reload();
       }).catch((error) => {
         console.error(error);
@@ -54,7 +56,7 @@ class Login extends React.Component<IProps, IState> {
     return (
       <Form onSubmit={this.handleSubmit} className='login-form'>
         <Form.Item>
-          {getFieldDecorator('username', {
+          {getFieldDecorator('email', {
             rules: [{ required: true, message: '请输入你的邮箱账号!' }],
           })(
             <Input

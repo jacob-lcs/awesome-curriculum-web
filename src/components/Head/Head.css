@@ -48,3 +48,7 @@
     margin-left: 10px;
     cursor: pointer;
 }
+
+.userModal{
+    width: 400px !important;
+}
