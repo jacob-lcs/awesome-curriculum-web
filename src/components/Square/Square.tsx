@@ -30,13 +30,15 @@ class Square extends React.Component<{}, IState> {
         const courseInfo = {
           courseName: item.name,
           courseRoom: 'C121',
-          teacherName: 'Jacob',
+          teacherName: item.teacherName,
           modalVisible: false,
           className: '',
+          color: item.color,
           first: false,
           week: item.week,
           id: item.id,
         };
+        console.log(item.color);
         const target = document.getElementsByClassName('square-col')[item.week] as HTMLElement;
         const height = 44 * item.time;
         const top = 44 * item.start;
@@ -117,6 +119,7 @@ class Square extends React.Component<{}, IState> {
       className: '',
       first: true,
       week,
+      color: '0FC4A7',
     });
     ReactDOM.render(component, div);
     fillBlock.style.height = '0px';
@@ -166,6 +169,7 @@ class Square extends React.Component<{}, IState> {
               courseName='实例名称'
               teacherName='Jacob'
               courseRoom='C121'
+              color='0FC4A7'
               modalVisible={false}
               first={true}
             />
@@ -181,6 +185,7 @@ class Square extends React.Component<{}, IState> {
               courseName='实例名称'
               teacherName='Jacob'
               courseRoom='C121'
+              color='0FC4A7'
               modalVisible={false}
               first={true}
             />
@@ -196,6 +201,7 @@ class Square extends React.Component<{}, IState> {
               courseName='实例名称'
               teacherName='Jacob'
               courseRoom='C121'
+              color='0FC4A7'
               modalVisible={false}
               first={true}
             />
@@ -211,6 +217,7 @@ class Square extends React.Component<{}, IState> {
               courseName='实例名称'
               teacherName='Jacob'
               courseRoom='C121'
+              color='0FC4A7'
               modalVisible={false}
               first={true}
             />
@@ -226,6 +233,7 @@ class Square extends React.Component<{}, IState> {
               courseName='实例名称'
               teacherName='Jacob'
               courseRoom='C121'
+              color='0FC4A7'
               modalVisible={false}
               first={true}
             />
@@ -241,6 +249,7 @@ class Square extends React.Component<{}, IState> {
               courseName='实例名称'
               teacherName='Jacob'
               courseRoom='C121'
+              color='0FC4A7'
               modalVisible={false}
               first={true}
             />
@@ -256,6 +265,7 @@ class Square extends React.Component<{}, IState> {
               courseName='实例名称'
               teacherName='Jacob'
               courseRoom='C121'
+              color='0FC4A7'
               modalVisible={false}
               first={true}
             />

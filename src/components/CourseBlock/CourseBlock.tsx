@@ -1,5 +1,6 @@
-import { Icon, Input, message, Modal, Popconfirm } from 'antd';
+import { Button, Icon, Input, message, Modal, Popconfirm } from 'antd';
 import React from 'react';
+import { ChromePicker } from 'react-color';
 import { addCourse, deleteCourse, updateCourse } from '../../api/course';
 import './CourseBlock.css';
 
@@ -12,10 +13,12 @@ interface IProps {
   first: boolean;
   week?: number;
   id?: number;
+  color: string;
 }
 
 interface IState {
   visible: boolean;
+  colorVisible: boolean;
   courseName: string;
   teacherName: string;
   courseRoom: string;
@@ -24,6 +27,8 @@ interface IState {
   id: number;
   optionsStyle: object;
   modalInfo: any;
+  color: string;
+  chromePickerColor: string;
 }
 
 class CourseBlock extends React.Component<IProps, IState> {
@@ -35,6 +40,7 @@ class CourseBlock extends React.Component<IProps, IState> {
       courseName: this.props.courseName,
       teacherName: this.props.teacherName,
       courseRoom: this.props.courseRoom,
+      color: this.props.color,
       first: this.props.first,
       myRef: React.createRef(),
       id: this.props.id || 0,
@@ -45,7 +51,10 @@ class CourseBlock extends React.Component<IProps, IState> {
         courseName: this.props.courseName,
         courseRoom: this.props.courseRoom,
         teacherName: this.props.teacherName,
+        color: this.props.color,
       },
+      colorVisible: false,
+      chromePickerColor: '',
     };
   }
 
@@ -59,9 +68,10 @@ class CourseBlock extends React.Component<IProps, IState> {
       name: this.state.modalInfo.courseName,
       start: Number(this.state.myRef.current.parentNode.style.top.slice(0, -2)) / 44,
       time: Number(this.state.myRef.current.parentNode.style.height.slice(0, -2)) / 44,
-      color: '0FC4A7',
+      color: this.state.modalInfo.color,
       week: this.props.week,
       id: this.state.id,
+      teacherName: this.state.modalInfo.teacherName,
     };
 
     if (this.state.id) {
@@ -104,6 +114,7 @@ class CourseBlock extends React.Component<IProps, IState> {
         courseName: this.state.courseName,
         courseRoom: this.state.courseRoom,
         teacherName: this.state.teacherName,
+        color: this.state.color,
       },
     });
     this.setState({
@@ -165,9 +176,53 @@ class CourseBlock extends React.Component<IProps, IState> {
     });
   }
 
+  /**
+   * submitColor
+   */
+  public submitColor = () => {
+    const modalInfo = this.state.modalInfo;
+    modalInfo.color = this.state.chromePickerColor;
+    this.setState({
+      colorVisible: false,
+      modalInfo,
+    });
+  }
+
+  /**
+   * cancelColor
+   */
+  public cancelColor = () => {
+    this.setState({
+      colorVisible: false,
+    });
+  }
+
+  /**
+   * showColor
+   */
+  public showColor = () => {
+    this.setState({
+      chromePickerColor: `#${this.state.modalInfo.color}`,
+      colorVisible: true,
+    });
+  }
+
+  /**
+   * handleColorChangeComplete
+   */
+  public handleColorChangeComplete = (color: any) => {
+    this.setState({
+      chromePickerColor: color.hex.slice(1),
+    });
+  }
+
   public render() {
     return (
-      <div className={`course-container ${this.props.className}`} ref={this.state.myRef}>
+      <div
+        className={`course-container ${this.props.className}`}
+        ref={this.state.myRef}
+        style={{backgroundColor: `#${this.state.color}`}}
+      >
         <div
           className='course'
           onMouseEnter={this.showOptions}
@@ -219,6 +274,25 @@ class CourseBlock extends React.Component<IProps, IState> {
             className='input-item'
             onChange={this.teacherNameChange}
           />
+          <div className='input-item color'>
+            <span className='input-item__title'>&nbsp;颜&nbsp;&nbsp;色&nbsp;</span>
+            <div
+              className='colorBlock'
+              style={{backgroundColor: `#${this.state.modalInfo.color}`}}
+              onClick={this.showColor}
+              title='修改颜色'
+            />
+            <Modal
+              visible={this.state.colorVisible}
+              closable={false}
+              footer={null}
+              className='colorPickerModal'
+            >
+              <ChromePicker color={this.state.chromePickerColor} onChangeComplete={this.handleColorChangeComplete}/>
+              <Button type='primary' size='small' className='colorSubmit' onClick={this.submitColor}>确定</Button>
+              <Button size='small' className='colorSubmit' onClick={this.cancelColor}>取消</Button>
+            </Modal>
+          </div>
         </Modal>
       </div>
     );

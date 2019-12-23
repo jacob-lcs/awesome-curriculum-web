@@ -1,5 +1,5 @@
 .course-container{
-  background-color: #0FC4A7;
+  /* background-color: #0FC4A7; */
   width: 100%;
   height: 100%;
   color: white;
@@ -18,6 +18,16 @@
 .input-item{
   margin-bottom: 20px;
 }
+.input-item.color{
+  display: flex;
+}
+.colorBlock{
+  width: 32px;
+  height: 32px;
+  margin-left: 30px;
+  border-radius: 4px;
+  cursor: pointer;
+}
 .options{
   position: absolute;
   right: 100%;
@@ -26,4 +36,27 @@
   background-color: #81a9e0;
   border-radius: 3px;
   padding: 5px;
+}
+
+.input-item__title{
+  border-radius: 4px;
+  background-color: #fafafa;
+  border: 1px solid #d9d9d9;
+  font-size: 14px;
+  padding: 4px 12px 4px 12px;
+}
+
+.colorPickerModal{
+  height: fit-content !important;
+  width: fit-content !important;
+}
+.colorPickerModal .ant-modal-body{
+  padding: 0px;
+  text-align: center;
+}
+.colorPickerModal .ant-modal-body .chrome-picker {
+  box-shadow: none !important;
+}
+.colorSubmit{
+  margin: 10px;
 }
