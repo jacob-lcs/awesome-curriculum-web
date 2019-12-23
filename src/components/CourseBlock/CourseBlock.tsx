@@ -10,10 +10,11 @@ interface IProps {
   courseRoom: string;
   modalVisible: boolean;
   className: string;
-  first: boolean;
   week?: number;
-  id?: number;
+  id: number;
   color: string;
+  updateCourseState?: any;
+  cancelAdd?: any;
 }
 
 interface IState {
@@ -22,7 +23,6 @@ interface IState {
   courseName: string;
   teacherName: string;
   courseRoom: string;
-  first: boolean;
   myRef: any;
   id: number;
   optionsStyle: object;
@@ -41,7 +41,6 @@ class CourseBlock extends React.Component<IProps, IState> {
       teacherName: this.props.teacherName,
       courseRoom: this.props.courseRoom,
       color: this.props.color,
-      first: this.props.first,
       myRef: React.createRef(),
       id: this.props.id || 0,
       optionsStyle: {
@@ -58,25 +57,36 @@ class CourseBlock extends React.Component<IProps, IState> {
     };
   }
 
+  public componentDidUpdate(prevProps: any) {
+    if (prevProps.modalVisible !== this.props.modalVisible) {
+      this.setState({
+        visible: this.props.modalVisible,
+      });
+    }
+    if (prevProps.color !== this.props.color) {
+      this.setState({
+        color: this.props.color,
+      });
+    }
+  }
+
   public handleOk = () => {
-    this.setState({
-      courseName: this.state.modalInfo.courseName,
-      courseRoom: this.state.modalInfo.courseRoom,
-      teacherName: this.state.modalInfo.teacherName,
-    });
     const data = {
       name: this.state.modalInfo.courseName,
       start: Number(this.state.myRef.current.parentNode.style.top.slice(0, -2)) / 44,
       time: Number(this.state.myRef.current.parentNode.style.height.slice(0, -2)) / 44,
       color: this.state.modalInfo.color,
       week: this.props.week,
-      id: this.state.id,
+      id: this.props.id ? this.props.id : this.state.id,
       teacherName: this.state.modalInfo.teacherName,
     };
-
-    if (this.state.id) {
+    if (data.id > 0) {
       updateCourse(data).then(() => {
         message.success('修改成功');
+        this.props.updateCourseState();
+        this.setState({
+          visible: false,
+        });
       }).catch((error) => {
         console.error(error);
       });
@@ -86,26 +96,24 @@ class CourseBlock extends React.Component<IProps, IState> {
           id: response.id,
         });
         message.success('添加成功');
+        this.props.updateCourseState();
+        this.setState({
+          visible: false,
+        });
       }).catch((error) => {
         console.error(error);
       });
     }
 
-    this.setState({
-      visible: false,
-      first: false,
-    });
   }
 
   public handleCancel = () => {
     this.setState({
       visible: false,
     });
-    if (this.state.first) {
-      const parentNode = this.state.myRef.current.parentNode;
-      parentNode.style.display = 'none';
+    if (this.props.id <= 0 || this.state.id <= 0) {
+      this.props.cancelAdd();
     }
-
   }
 
   public changeInfo = () => {
@@ -168,9 +176,9 @@ class CourseBlock extends React.Component<IProps, IState> {
       name: this.state.courseName,
       all: arg,
     };
-    deleteCourse(data).then((response) => {
+    deleteCourse(data).then(() => {
       message.success('删除成功');
-      window.location.reload();
+      this.props.updateCourseState();
     }).catch((error) => {
       console.error(error);
     });
@@ -248,7 +256,6 @@ class CourseBlock extends React.Component<IProps, IState> {
           >
             <Icon type='delete' title='删除'/>
           </Popconfirm>
-          <Icon type='sound' title='进入群聊'/>
         </div>
         <Modal
           title='修改课程信息'
