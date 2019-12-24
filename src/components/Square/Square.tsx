@@ -1,12 +1,23 @@
+import { Modal} from 'antd';
 import React from 'react';
 import { queryCourse } from '../../api/course';
 import CourseBlock from '../CourseBlock/CourseBlock';
+import CourseInfo from '../CourseInfo/CourseInfo';
 
 import './Square.css';
+
+interface IData {
+  name: string;
+  room: string;
+  teacherName: string;
+  time: object[];
+}
 
 interface IState {
   mouseDown: boolean;
   courseList: any[];
+  courseDetailVisible: boolean;
+  courseDetailData: IData;
 }
 
 class Square extends React.Component<{}, IState> {
@@ -15,6 +26,13 @@ class Square extends React.Component<{}, IState> {
     this.state = {
       mouseDown: false,
       courseList: [],
+      courseDetailVisible: false,
+      courseDetailData: {
+        name: '',
+        room: '',
+        teacherName: '',
+        time: [],
+      },
     };
   }
 
@@ -99,9 +117,51 @@ class Square extends React.Component<{}, IState> {
     });
   }
 
+  /**
+   * showCourseDetail
+   */
+  public showCourseDetail = (name: string) => {
+    const courses = this.state.courseList.filter((item) => item.name === name);
+    const courseDetailData = this.state.courseDetailData;
+    courseDetailData.name = name;
+    courseDetailData.room = 'C121';
+    courseDetailData.teacherName = courses[0].teacherName;
+    courseDetailData.time = [];
+    for (const item of courses) {
+      courseDetailData.time.push({
+        week: item.week,
+        start: item.start,
+        time: item.time,
+      });
+    }
+    console.log(courseDetailData);
+    this.setState({
+      courseDetailVisible: true,
+      courseDetailData,
+    });
+  }
+
+  /**
+   * hideModal
+   */
+  public hideModal = () => {
+    this.setState({
+      courseDetailVisible: false,
+    });
+  }
+
   public render() {
     return (
       <div className='square-container'>
+        <Modal
+          visible={this.state.courseDetailVisible}
+          onCancel={this.hideModal}
+          footer={null}
+          centered={true}
+          width={400}
+        >
+          <CourseInfo data={this.state.courseDetailData}/>
+        </Modal>
         <div className='week'>
           <div className='week-item' />
           {
@@ -139,6 +199,7 @@ class Square extends React.Component<{}, IState> {
                           height: 44 * course.time,
                           top: 44 * course.start,
                         }}
+                        onClick={this.showCourseDetail.bind(this, course.name)}
                       >
                         <CourseBlock
                           courseName={course.name}

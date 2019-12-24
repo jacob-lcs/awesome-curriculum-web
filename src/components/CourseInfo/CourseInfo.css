@@ -1,0 +1,22 @@
+.course-detail-container{
+  padding-left: 25px;
+  padding-right: 25px;
+  text-align: center;
+}
+.course-detail-title{
+  font-weight: bold;
+  font-size: 25px;
+  padding-bottom: 30px;
+}
+.course-detail-item{
+  display: flex;
+  margin-bottom: 10px;
+}
+.course-detail-name{
+  flex: 1;
+  font-weight: bold;
+}
+.course-detail-content{
+  flex: 2;
+  text-align: center;
+}
