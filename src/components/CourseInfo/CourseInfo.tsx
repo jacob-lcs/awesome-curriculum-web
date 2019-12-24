@@ -49,7 +49,7 @@ class CourseInfo extends React.Component<IProps, IState> {
               return (
                 <div key={item.start + '' + item.time + item.week} style={{marginBottom: '10px'}}>
                   <span>
-                    星期{this.state.nums[item.week]}
+                    星期{this.state.nums[item.week - 1]}
                   </span>&nbsp;&nbsp;&nbsp;
                   <span>
                     第

@@ -15,6 +15,7 @@ interface IProps {
   color: string;
   updateCourseState?: any;
   cancelAdd?: any;
+  click: any;
 }
 
 interface IState {
@@ -79,6 +80,7 @@ class CourseBlock extends React.Component<IProps, IState> {
       week: this.props.week,
       id: this.props.id ? this.props.id : this.state.id,
       teacherName: this.state.modalInfo.teacherName,
+      room: this.state.modalInfo.courseRoom,
     };
     if (data.id > 0) {
       updateCourse(data).then(() => {
@@ -235,6 +237,7 @@ class CourseBlock extends React.Component<IProps, IState> {
           className='course'
           onMouseEnter={this.showOptions}
           onMouseLeave={this.closeOptions}
+          onClick={this.props.click}
         >
           {this.state.courseName}&nbsp;——&nbsp;
           {this.state.courseRoom}<br />

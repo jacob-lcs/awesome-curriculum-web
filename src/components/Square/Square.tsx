@@ -86,6 +86,7 @@ class Square extends React.Component<{}, IState> {
       time: 1,
       color: '0FC4A7',
       teacherName: 'Jacob',
+      room: 'C121',
     });
     this.setState({
       mouseDown: true,
@@ -199,11 +200,10 @@ class Square extends React.Component<{}, IState> {
                           height: 44 * course.time,
                           top: 44 * course.start,
                         }}
-                        onClick={this.showCourseDetail.bind(this, course.name)}
                       >
                         <CourseBlock
                           courseName={course.name}
-                          courseRoom='C121'
+                          courseRoom={course.room}
                           teacherName={course.teacherName}
                           modalVisible={course.id ? false : true}
                           className=''
@@ -212,6 +212,7 @@ class Square extends React.Component<{}, IState> {
                           id={course.id}
                           updateCourseState={this.getData}
                           cancelAdd={this.cancelAdd}
+                          click={this.showCourseDetail.bind(this, course.name)}
                         />
                       </div>
                     );
