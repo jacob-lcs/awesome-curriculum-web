@@ -1,6 +1,7 @@
 import { Avatar, Drawer, Icon, Layout, Modal, Popover } from 'antd';
 import React from 'react';
 import { getAvatar } from '../../utils/auth';
+import Chat from '../Chat/Chat';
 import Draw from '../Draw/Draw';
 import UserInfo from '../UserInfo/UserInfo';
 
@@ -13,6 +14,7 @@ interface IProps {
 interface IState {
   drawVisible: boolean;
   modalVisible: boolean;
+  chatModalVisible: boolean;
 }
 
 const { Header } = Layout;
@@ -22,6 +24,7 @@ class Head extends React.Component<IProps, IState> {
     this.state = {
       drawVisible: false,
       modalVisible: false,
+      chatModalVisible: false,
     };
   }
 
@@ -50,11 +53,29 @@ class Head extends React.Component<IProps, IState> {
   }
 
   /**
+   * chatModalCancle
+   */
+  public chatModalCancle = () => {
+    this.setState({
+      chatModalVisible: false,
+    });
+  }
+
+  /**
    * showUserModal
    */
   public showUserModal = () => {
     this.setState({
       modalVisible: true,
+    });
+  }
+
+  /**
+   * showChatModal
+   */
+  public showChatModal = () => {
+    this.setState({
+      chatModalVisible: true,
     });
   }
 
@@ -81,9 +102,9 @@ class Head extends React.Component<IProps, IState> {
               <Icon type='api' className='head__item-icon'  />
             </div>
           </Popover>
-          <Popover content='前往打卡' placement='bottom'>
-            <div className='head__item'>
-              <Icon type='hourglass' className='head__item-icon' />
+          <Popover content='进入课程群聊' placement='bottom'>
+            <div className='head__item' onClick={this.showChatModal}>
+              <Icon type='sound' className='head__item-icon' />
             </div>
           </Popover>
           <div onClick={this.showUserModal}>
@@ -111,6 +132,16 @@ class Head extends React.Component<IProps, IState> {
           className='userModal'
         >
           <UserInfo />
+        </Modal>
+
+        <Modal
+          visible={this.state.chatModalVisible}
+          onCancel={this.chatModalCancle}
+          centered={true}
+          footer={null}
+          className='chatModal'
+        >
+          <Chat />
         </Modal>
       </div>
     );

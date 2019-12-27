@@ -1,0 +1,91 @@
+.chat-container{
+  display: flex;
+  height: 100%;
+  width: 100%;
+}
+.chat-container__user{
+  flex: 0.8;
+  background-color: #26A094;
+  text-align: center;
+  color: white;
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  word-break: break-all;
+}
+.chat-container__user-avatar{
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+.chat-container__user-name{
+  font-size: 15px;
+  user-select: none;
+}
+.chat-container__user-icon{
+  margin-top: auto;
+  margin-bottom: 20px;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.chat-container__chat-list{
+  flex: 3;
+  background-color: #4AA89B;
+}
+.course-item{
+  height: 70px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+.course-item__avatar{
+  margin-left: 10px;
+  background-color: #0FC4A7;
+  user-select: none;
+}
+.course-item__name{
+  color: white;
+  margin-left: 10px;
+}
+
+.chat-container__content{
+  flex: 7;
+  background-color: #9BDAD4;
+  display: flex;
+  flex-direction: column;
+}
+.content__header{
+  color: white;
+  font-size: 20px;
+  padding-left: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  height: 7vh;
+}
+.content__chat{
+  flex: 6;
+  overflow: scroll;
+  overflow-x: hidden;
+  height: 68vh;
+}
+.content__input{
+  flex: 1;
+  display: flex;
+  align-items: center;
+  height: 5vh;
+}
+.content__input__edit{
+  width: 70%;
+  margin-right: 20px;
+}
+.content__input__emoji{
+  font-size: 20px;
+  color: white;
+  cursor: pointer;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+.chat-container__content .ant-divider.ant-divider-horizontal{
+  margin: 0px !important;
+}

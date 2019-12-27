@@ -52,3 +52,13 @@
 .userModal{
     width: 400px !important;
 }
+
+.chatModal .ant-modal-body{
+    padding: 0px;
+}
+.chatModal{
+    width: 70% !important;
+}
+.chatModal .ant-modal-body{
+    height: 80vh !important;
+}
