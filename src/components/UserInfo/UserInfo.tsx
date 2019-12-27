@@ -36,13 +36,13 @@ class UserInfo extends React.Component<{}, IState> {
       this.setState({
         logoutLoding: false,
       });
+      window.location.reload();
     }).catch((error) => {
       console.error(error);
       this.setState({
         logoutLoding: false,
       });
     });
-    window.location.reload();
   }
 
   /**
