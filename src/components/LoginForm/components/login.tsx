@@ -37,7 +37,7 @@ class Login extends React.Component<IProps, IState> {
         setToken(response.token, options);
         setName(response.username, options);
         setEmail(values.email, options);
-        setAvatar(`http://47.102.117.126:3000/${response.avatar}`, options);
+        setAvatar(`https://coursehelper.online:3000/${response.avatar}`, options);
         message.success('登录成功！');
         window.location.reload();
       }).catch((error) => {

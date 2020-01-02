@@ -56,11 +56,11 @@ class UserInfo extends React.Component<{}, IState> {
         const formData = new FormData();
         formData.append('file', res);
         uploadFile(formData).then((response: any) => {
-          setAvatar(`http://47.102.117.126:3000/${response.fileName}`, {
+          setAvatar(`https://coursehelper.online:3000/${response.fileName}`, {
             expires: 15,
           });
           this.setState({
-            avatar: `http://47.102.117.126:3000/${response.fileName}`,
+            avatar: `https://coursehelper.online:3000/${response.fileName}`,
           });
           message.success('更改成功');
         }).catch((error) => {

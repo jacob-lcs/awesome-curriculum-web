@@ -1,7 +1,7 @@
 import { Avatar, Button, Divider, Icon, Input, Popover } from 'antd';
 import React from 'react';
 import io from 'socket.io-client';
-import { getAvatar, getName } from '../../utils/auth';
+import { getAvatar, getName, getToken } from '../../utils/auth';
 import './Chat.css';
 
 let socket: any = '';
@@ -62,15 +62,17 @@ class Chat extends React.Component<{}, IState> {
    * sendMessage
    */
   public sendMessage = () => {
-    socket.emit('hello', 'hello');
+
   }
 
   public componentDidMount = () => {
     // 建立websocket连接
-    socket = io('http://47.102.117.126:5000');
-    console.log('挂载成功');
+    socket = io('https://coursehelper.online:5000');
     socket.on('open', () => {
       console.log('客户端已连接');
+      socket.emit('binding', {
+        from: getToken(),
+      });
     });
 
     // this.state.socket.onmessage = (event: any) => {
