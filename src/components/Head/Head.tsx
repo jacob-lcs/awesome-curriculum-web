@@ -97,11 +97,6 @@ class Head extends React.Component<IProps, IState> {
               <Icon type='cloud-download' className='head__item-icon' />
             </div>
           </Popover>
-          <Popover content='从教务系统导入' placement='bottom'>
-            <div className='head__item' onClick={this.downloadImg}>
-              <Icon type='api' className='head__item-icon'  />
-            </div>
-          </Popover>
           <Popover content='进入课程群聊' placement='bottom'>
             <div className='head__item' onClick={this.showChatModal}>
               <Icon type='sound' className='head__item-icon' />

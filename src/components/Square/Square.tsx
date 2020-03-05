@@ -193,7 +193,7 @@ class Square extends React.Component<{}, IState> {
                   .map((course) => {
                     return (
                       <div
-                        key={course.week + course.name + course.teacherName}
+                        key={course.id}
                         style={{
                           position: 'absolute',
                           width: '100%',
@@ -202,6 +202,7 @@ class Square extends React.Component<{}, IState> {
                         }}
                       >
                         <CourseBlock
+                          courseList={this.state.courseList}
                           courseName={course.name}
                           courseRoom={course.room}
                           teacherName={course.teacherName}

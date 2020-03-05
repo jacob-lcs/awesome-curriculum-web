@@ -20,6 +20,19 @@
 .input-item.color{
   display: flex;
 }
+.input-item.time{
+  display: flex;
+}
+.input-item__time{
+  margin-left: 10px;
+}
+.input-item__time__item{
+  width: 60px;
+}
+.input-item__time__add{
+  margin-left: 10px;
+  cursor: pointer;
+}
 .colorBlock{
   width: 32px;
   height: 32px;
@@ -43,6 +56,9 @@
   border: 1px solid #d9d9d9;
   font-size: 14px;
   padding: 4px 12px 4px 12px;
+}
+.input-item__title.time{
+  height: 35px;
 }
 
 .colorPickerModal{

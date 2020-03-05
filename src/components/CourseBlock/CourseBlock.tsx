@@ -1,9 +1,10 @@
-import { Button, Icon, Input, message, Modal, Popconfirm } from 'antd';
+import { Button, Icon, Input,  message, Modal, Popconfirm, Popover, Select } from 'antd';
 import React from 'react';
 import { ChromePicker } from 'react-color';
 import { addCourse, deleteCourse, updateCourse } from '../../api/course';
 import './CourseBlock.css';
 
+const {Option} = Select;
 interface IProps {
   courseName: string;
   teacherName: string;
@@ -16,6 +17,7 @@ interface IProps {
   updateCourseState?: any;
   cancelAdd?: any;
   click: any;
+  courseList: any;
 }
 
 interface IState {
@@ -30,6 +32,7 @@ interface IState {
   modalInfo: any;
   color: string;
   chromePickerColor: string;
+  week: any;
 }
 
 class CourseBlock extends React.Component<IProps, IState> {
@@ -52,10 +55,13 @@ class CourseBlock extends React.Component<IProps, IState> {
         courseRoom: this.props.courseRoom,
         teacherName: this.props.teacherName,
         color: this.props.color,
+        time: this.props.courseList.filter((course: any) => course.name === this.props.courseName),
       },
       colorVisible: false,
       chromePickerColor: '',
+      week: ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日'],
     };
+    console.log(this.state.modalInfo.time);
   }
 
   public componentDidUpdate(prevProps: any) {
@@ -72,6 +78,14 @@ class CourseBlock extends React.Component<IProps, IState> {
   }
 
   public handleOk = () => {
+    const timeList = [];
+    for (const item of this.state.modalInfo.time) {
+      timeList.push({
+        start: item.start,
+        time: item.time,
+        week: item.week,
+      });
+    }
     const data = {
       name: this.state.modalInfo.courseName,
       start: Number(this.state.myRef.current.parentNode.style.top.slice(0, -2)) / 44,
@@ -81,6 +95,7 @@ class CourseBlock extends React.Component<IProps, IState> {
       id: this.props.id ? this.props.id : this.state.id,
       teacherName: this.state.modalInfo.teacherName,
       room: this.state.modalInfo.courseRoom,
+      timeList,
     };
     if (data.id > 0) {
       updateCourse(data).then(() => {
@@ -121,10 +136,11 @@ class CourseBlock extends React.Component<IProps, IState> {
   public changeInfo = () => {
     this.setState({
       modalInfo: {
-        courseName: this.state.courseName,
-        courseRoom: this.state.courseRoom,
-        teacherName: this.state.teacherName,
-        color: this.state.color,
+        courseName: this.props.courseName,
+        courseRoom: this.props.courseRoom,
+        teacherName: this.props.teacherName,
+        color: this.props.color,
+        time: this.props.courseList.filter((course: any) => course.name === this.props.courseName),
       },
     });
     this.setState({
@@ -154,6 +170,31 @@ class CourseBlock extends React.Component<IProps, IState> {
     this.setState({
       modalInfo,
     });
+  }
+
+  /**
+   * startChange
+   */
+  public startChange = (index: any) => {
+    const modalInfo = this.state.modalInfo;
+    // modalInfo.time[index].start = e.target.value;
+    this.setState({
+      modalInfo,
+    });
+  }
+
+  /**
+   * timeChange
+   */
+  public timeChange = (e: any, index: number) => {
+
+  }
+
+  /**
+   * weekChange
+   */
+  public weekChange = (e: any, index: number) => {
+
   }
 
   public showOptions = () => {
@@ -239,9 +280,9 @@ class CourseBlock extends React.Component<IProps, IState> {
           onMouseLeave={this.closeOptions}
           onClick={this.props.click}
         >
-          {this.state.courseName}&nbsp;——&nbsp;
-          {this.state.courseRoom}<br />
-          {this.state.teacherName}
+          {this.props.courseName}&nbsp;——&nbsp;
+          {this.props.courseRoom}<br />
+          {this.props.teacherName}
         </div>
         <div
           className='options'
@@ -285,7 +326,7 @@ class CourseBlock extends React.Component<IProps, IState> {
             onChange={this.teacherNameChange}
           />
           <div className='input-item color'>
-            <span className='input-item__title'>&nbsp;颜&nbsp;&nbsp;色&nbsp;</span>
+            <span className='input-item__title'>&nbsp;颜&nbsp;&nbsp;色&nbsp;&nbsp;</span>
             <div
               className='colorBlock'
               style={{backgroundColor: `#${this.state.modalInfo.color}`}}
@@ -302,6 +343,49 @@ class CourseBlock extends React.Component<IProps, IState> {
               <Button type='primary' size='small' className='colorSubmit' onClick={this.submitColor}>确定</Button>
               <Button size='small' className='colorSubmit' onClick={this.cancelColor}>取消</Button>
             </Modal>
+          </div>
+          <div className='input-item time'>
+            <div className='input-item__title time'>
+              <span>上课时间</span>
+            </div>
+            <div className='input-item__time'>
+              {
+                this.state.modalInfo.time
+                .map((e: any, index: number) => {
+                  return(
+                    <div key={index} style={{marginBottom: 10}}>
+                      <Select defaultValue={e.week} style={{ width: 90 }} onChange={this.weekChange.bind(this, index)}>
+                        {
+                          this.state.week.map((item: any, i: any) => {
+                            return <Option key={i} value={i + 1}>{item}</Option>;
+                          })
+                        }
+                      </Select>
+                      &nbsp;&nbsp;&nbsp;第&nbsp;
+                      <Input
+                        className='input-item__time__item'
+                        type='number' value={e.start + 1}
+                        onChange={this.startChange.bind(this, index)}/>
+                      &nbsp;—&nbsp;
+                      <Input
+                        className='input-item__time__item'
+                        type='number' value={e.start + e.time}/>&nbsp;节
+                      <Popover placement='right' content='删除' trigger='hover'>
+                        <Icon type='minus-circle' className='input-item__time__add' style={{color: 'red'}}/>
+                      </Popover>
+                      {
+                        index === (this.state.modalInfo.time.length - 1) ? (
+                          <Popover placement='right' content='添加' trigger='hover'>
+                            <Icon type='plus-circle' className='input-item__time__add'/>
+                          </Popover>
+                        ) : null
+                      }
+                    </div>
+                  );
+                })
+              }
+
+            </div>
           </div>
         </Modal>
       </div>

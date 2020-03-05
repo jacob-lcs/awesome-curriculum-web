@@ -61,9 +61,7 @@ class Chat extends React.Component<{}, IState> {
   /**
    * sendMessage
    */
-  public sendMessage = () => {
-
-  }
+  public sendMessage = () => {};
 
   public componentDidMount = () => {
     // 建立websocket连接
