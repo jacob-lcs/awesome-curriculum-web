@@ -175,9 +175,10 @@ class CourseBlock extends React.Component<IProps, IState> {
   /**
    * startChange
    */
-  public startChange = (index: any) => {
+  public startChange = (e: any, index: any) => {
+    e.persist();
     const modalInfo = this.state.modalInfo;
-    // modalInfo.time[index].start = e.target.value;
+    modalInfo.time[index].start = Number(e.target.value)   - 1;
     this.setState({
       modalInfo,
     });
@@ -187,14 +188,49 @@ class CourseBlock extends React.Component<IProps, IState> {
    * timeChange
    */
   public timeChange = (e: any, index: number) => {
-
+    e.persist();
+    const modalInfo = this.state.modalInfo;
+    modalInfo.time[index].time = e.target.value - modalInfo.time[index].start;
+    this.setState({
+      modalInfo,
+    });
   }
 
   /**
    * weekChange
    */
   public weekChange = (e: any, index: number) => {
+    const modalInfo = this.state.modalInfo;
+    modalInfo.time[index].week = e;
+    this.setState({
+      modalInfo,
+    });
+  }
 
+  /**
+   * deleteTime
+   */
+  public deleteTime(index: number) {
+    const modalInfo = this.state.modalInfo;
+    modalInfo.time.splice(index, 1);
+    this.setState({
+      modalInfo,
+    });
+  }
+
+  /**
+   * addTime
+   */
+  public addTime(index: number) {
+    const modalInfo = this.state.modalInfo;
+    modalInfo.time.push({
+      week: 1,
+      start: 1,
+      time: 1,
+    });
+    this.setState({
+      modalInfo,
+    });
   }
 
   public showOptions = () => {
@@ -354,7 +390,13 @@ class CourseBlock extends React.Component<IProps, IState> {
                 .map((e: any, index: number) => {
                   return(
                     <div key={index} style={{marginBottom: 10}}>
-                      <Select defaultValue={e.week} style={{ width: 90 }} onChange={this.weekChange.bind(this, index)}>
+                      <Select
+                        value={e.week}
+                        style={{ width: 90 }}
+                        // tslint:disable-next-line: jsx-no-lambda
+                        onChange={(event: any) => {
+                          this.weekChange(event, index);
+                        }}>
                         {
                           this.state.week.map((item: any, i: any) => {
                             return <Option key={i} value={i + 1}>{item}</Option>;
@@ -364,19 +406,35 @@ class CourseBlock extends React.Component<IProps, IState> {
                       &nbsp;&nbsp;&nbsp;第&nbsp;
                       <Input
                         className='input-item__time__item'
-                        type='number' value={e.start + 1}
-                        onChange={this.startChange.bind(this, index)}/>
+                        type='number'
+                        value={e.start + 1}
+                        // tslint:disable-next-line: jsx-no-lambda
+                        onChange={(event: any) => {
+                          this.startChange(event, index);
+                        }}/>
                       &nbsp;—&nbsp;
                       <Input
                         className='input-item__time__item'
-                        type='number' value={e.start + e.time}/>&nbsp;节
+                        type='number'
+                        value={e.start + e.time}
+                        // tslint:disable-next-line: jsx-no-lambda
+                        onChange={(event: any) => {
+                          this.timeChange(event, index);
+                        }}/>&nbsp;节
                       <Popover placement='right' content='删除' trigger='hover'>
-                        <Icon type='minus-circle' className='input-item__time__add' style={{color: 'red'}}/>
+                        <Icon
+                          type='minus-circle'
+                          className='input-item__time__add'
+                          style={{color: 'red'}}
+                          onClick={this.deleteTime.bind(this, index)}/>
                       </Popover>
                       {
                         index === (this.state.modalInfo.time.length - 1) ? (
                           <Popover placement='right' content='添加' trigger='hover'>
-                            <Icon type='plus-circle' className='input-item__time__add'/>
+                            <Icon
+                              type='plus-circle'
+                              className='input-item__time__add'
+                              onClick={this.addTime.bind(this, index)}/>
                           </Popover>
                         ) : null
                       }
