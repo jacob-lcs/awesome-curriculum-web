@@ -1,7 +1,7 @@
 import { Button, Checkbox, Form, Icon, Input, message } from 'antd';
 import React from 'react';
 import { login } from '../../../api/user';
-import { setAvatar, setEmail, setName, setToken } from '../../../utils/auth';
+import { setAvatar, setEmail, setName, setSchool, setToken } from '../../../utils/auth';
 
 interface IProps {
   form: any;
@@ -37,6 +37,7 @@ class Login extends React.Component<IProps, IState> {
         setToken(response.token, options);
         setName(response.username, options);
         setEmail(values.email, options);
+        setSchool(response.school, options);
         setAvatar(`https://coursehelper.online:3000/${response.avatar}`, options);
         message.success('登录成功！');
         window.location.reload();

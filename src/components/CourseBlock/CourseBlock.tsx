@@ -18,6 +18,7 @@ interface IProps {
   cancelAdd?: any;
   click: any;
   courseList: any;
+  courseNo: string;
 }
 
 interface IState {
@@ -33,6 +34,7 @@ interface IState {
   color: string;
   chromePickerColor: string;
   week: any;
+  courseNo: string;
 }
 
 class CourseBlock extends React.Component<IProps, IState> {
@@ -44,6 +46,7 @@ class CourseBlock extends React.Component<IProps, IState> {
       courseName: this.props.courseName,
       teacherName: this.props.teacherName,
       courseRoom: this.props.courseRoom,
+      courseNo: this.props.courseNo,
       color: this.props.color,
       myRef: React.createRef(),
       id: this.props.id || 0,
@@ -54,6 +57,7 @@ class CourseBlock extends React.Component<IProps, IState> {
         courseName: this.props.courseName,
         courseRoom: this.props.courseRoom,
         teacherName: this.props.teacherName,
+        courseNo: this.props.courseNo,
         color: this.props.color,
         time: this.props.courseList.filter((course: any) => course.name === this.props.courseName),
       },
@@ -95,6 +99,7 @@ class CourseBlock extends React.Component<IProps, IState> {
       id: this.props.id ? this.props.id : this.state.id,
       teacherName: this.state.modalInfo.teacherName,
       room: this.state.modalInfo.courseRoom,
+      courseNo: this.state.modalInfo.courseNo,
       timeList,
     };
     if (data.id > 0) {
@@ -139,6 +144,7 @@ class CourseBlock extends React.Component<IProps, IState> {
         courseName: this.props.courseName,
         courseRoom: this.props.courseRoom,
         teacherName: this.props.teacherName,
+        courseNo: this.props.courseNo,
         color: this.props.color,
         time: this.props.courseList.filter((course: any) => course.name === this.props.courseName),
       },
@@ -171,7 +177,16 @@ class CourseBlock extends React.Component<IProps, IState> {
       modalInfo,
     });
   }
-
+  /**
+   * courseNoChange
+   */
+  public courseNoChange = (e: any) => {
+    const modalInfo = this.state.modalInfo;
+    modalInfo.courseNo = e.target.value;
+    this.setState({
+      modalInfo,
+    });
+  }
   /**
    * startChange
    */
@@ -348,6 +363,12 @@ class CourseBlock extends React.Component<IProps, IState> {
             value={this.state.modalInfo.courseName}
             className='input-item'
             onChange={this.courseNameChange}
+          />
+          <Input
+            addonBefore='课 程 号'
+            value={this.state.modalInfo.courseNo}
+            className='input-item'
+            onChange={this.courseNoChange}
           />
           <Input
             addonBefore='上课教室'

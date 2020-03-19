@@ -11,6 +11,7 @@ interface IData {
   room: string;
   teacherName: string;
   time: object[];
+  courseNo: '';
 }
 
 interface IState {
@@ -32,6 +33,7 @@ class Square extends React.Component<{}, IState> {
         room: '',
         teacherName: '',
         time: [],
+        courseNo: '',
       },
     };
   }
@@ -87,6 +89,7 @@ class Square extends React.Component<{}, IState> {
       color: '0FC4A7',
       teacherName: 'Jacob',
       room: 'C121',
+      courseNo: '',
     });
     this.setState({
       mouseDown: true,
@@ -127,6 +130,7 @@ class Square extends React.Component<{}, IState> {
     courseDetailData.name = name;
     courseDetailData.room = 'C121';
     courseDetailData.teacherName = courses[0].teacherName;
+    courseDetailData.courseNo = courses[0].courseNo;
     courseDetailData.time = [];
     for (const item of courses) {
       courseDetailData.time.push({
@@ -210,6 +214,7 @@ class Square extends React.Component<{}, IState> {
                           className=''
                           color={course.color}
                           week={course.week}
+                          courseNo={course.courseNo}
                           id={course.id}
                           updateCourseState={this.getData}
                           cancelAdd={this.cancelAdd}

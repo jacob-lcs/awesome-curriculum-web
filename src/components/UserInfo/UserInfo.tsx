@@ -1,8 +1,8 @@
 import { Avatar, Button, Input, message } from 'antd';
 import React from 'react';
 import { uploadFile } from '../../api/common';
-import { logout, updateName } from '../../api/user';
-import { getAvatar, getEmail, getName, removeInfo, setAvatar, setName } from '../../utils/auth';
+import { logout, updateName, updateSchool } from '../../api/user';
+import { getAvatar, getEmail, getName, getSchool, removeInfo, setAvatar, setName, setSchool } from '../../utils/auth';
 import compressFile from '../../utils/compress';
 import './UserInfo.css';
 
@@ -10,8 +10,11 @@ interface IState {
   logoutLoding: boolean;
   avatar: string;
   editName: boolean;
+  editSchool: boolean;
+  school: string;
   userName: string;
   inputName: string;
+  inputSchool: string;
 }
 
 class UserInfo extends React.Component<{}, IState> {
@@ -23,7 +26,10 @@ class UserInfo extends React.Component<{}, IState> {
       avatar: getAvatar() as string,
       editName: false,
       userName: getName() as string,
-      inputName: '',
+      inputName: getName() as string,
+      editSchool: false,
+      school: getSchool() as string,
+      inputSchool: getSchool() as string,
     };
   }
 
@@ -81,6 +87,15 @@ class UserInfo extends React.Component<{}, IState> {
   }
 
   /**
+   * editSchool
+   */
+  public editSchool = () => {
+    this.setState({
+      editSchool: true,
+    });
+  }
+
+  /**
    * updateName
    */
   public updateName = () => {
@@ -100,6 +115,25 @@ class UserInfo extends React.Component<{}, IState> {
   }
 
   /**
+   * updateSchool
+   */
+  public updateSchool = () => {
+    const data = {
+      school: this.state.inputSchool,
+    };
+    updateSchool(data).then((response) => {
+      setSchool(this.state.inputSchool, {
+        expires: 15,
+      });
+      message.success('修改成功！');
+      this.setState({
+        editSchool: false,
+        school: this.state.inputSchool,
+      });
+    });
+  }
+
+  /**
    * inputChange
    */
   public inputChange = (e: any) => {
@@ -109,11 +143,29 @@ class UserInfo extends React.Component<{}, IState> {
   }
 
   /**
+   * schoolInputChange
+   */
+  public schoolInputChange = (e: any) => {
+    this.setState({
+      inputSchool: e.target.value,
+    });
+  }
+
+  /**
    * updateName
    */
   public cancleUpdateName = () => {
     this.setState({
       editName: false,
+    });
+  }
+
+  /**
+   * cancleUpdateSchool
+   */
+  public cancleUpdateSchool = () => {
+    this.setState({
+      editSchool: false,
     });
   }
 
@@ -134,12 +186,35 @@ class UserInfo extends React.Component<{}, IState> {
               onChange={this.inputChange}
             />
             <Button type='primary' size='small' onClick={this.updateName} style={{marginRight: '5px'}}>确定</Button>
-            <Button type='primary' size='small' defaultValue={this.state.userName} onClick={this.cancleUpdateName}>
+            <Button type='primary' size='small' onClick={this.cancleUpdateName}>
               取消
             </Button>
           </div>
           :
           <span className='UserInfo-name' onClick={this.editName}>{this.state.userName}</span>
+        }
+        {
+          this.state.editSchool ?
+          <div>
+            <Input placeholder='请输入学校名称'
+              size='small'
+              defaultValue={this.state.school}
+              className='UserInfo-name edit'
+              onChange={this.schoolInputChange}
+              style={{marginTop: '5px'}}
+            />
+            <Button type='primary' size='small' onClick={this.updateSchool} style={{marginRight: '5px'}}>确定</Button>
+            <Button type='primary' size='small' onClick={this.cancleUpdateSchool}>
+              取消
+            </Button>
+          </div>
+          :
+          <span
+            className='UserInfo-name'
+            onClick={this.editSchool}
+            style={{marginTop: '5px'}}>
+              {this.state.school}
+            </span>
         }
         <span className='UserInfo-email'>{getEmail()}</span>
         <Button type='primary' block={true} onClick={this.logout} loading={this.state.logoutLoding}>

@@ -39,10 +39,19 @@ const updateName = (data: object) => {
   });
 };
 
+const updateSchool = (data: object) => {
+  return request({
+    method: 'post',
+    url: '/api/user/updateSchool',
+    data,
+  });
+};
+
 export {
   registerCode,
   register,
   login,
   logout,
   updateName,
+  updateSchool,
 };

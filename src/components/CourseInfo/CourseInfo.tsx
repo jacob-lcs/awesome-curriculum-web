@@ -6,6 +6,7 @@ interface IData {
   room: string;
   teacherName: string;
   time: any[];
+  courseNo: string;
 }
 
 interface IProps {
@@ -31,6 +32,10 @@ class CourseInfo extends React.Component<IProps, IState> {
         <div className='course-detail-item'>
           <div className='course-detail-name'>课程名称:</div>
           <div className='course-detail-content'>{this.props.data.name}</div>
+        </div>
+        <div className='course-detail-item'>
+          <div className='course-detail-name'>课 程 号:</div>
+          <div className='course-detail-content'>{this.props.data.courseNo}</div>
         </div>
         <div className='course-detail-item'>
           <div className='course-detail-name'>上课教室:</div>

@@ -4,6 +4,7 @@ const TokenKey = 'CurriculumKey';
 const TokenEmail = 'CurriculumEmail';
 const TokenName = 'CurriculumName';
 const TokenAvatar = 'CurriculumAvatar';
+const TokenSchool = 'CurriculumSchool';
 
 export function getToken() {
   return Cookies.get(TokenKey);
@@ -39,9 +40,17 @@ export function setAvatar(name: string, options?: object) {
   return Cookies.set(TokenAvatar, name, options);
 }
 
+export function getSchool() {
+  return Cookies.get(TokenSchool);
+}
+
+export function setSchool(name: string, options?: object) {
+  return Cookies.set(TokenSchool, name, options);
+}
 export function removeInfo() {
   Cookies.remove(TokenKey);
   Cookies.remove(TokenEmail);
   Cookies.remove(TokenAvatar);
+  Cookies.remove(TokenSchool);
   return Cookies.remove(TokenName);
 }
