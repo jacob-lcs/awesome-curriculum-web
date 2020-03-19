@@ -58,9 +58,9 @@ class CourseInfo extends React.Component<IProps, IState> {
                   </span>&nbsp;&nbsp;&nbsp;
                   <span>
                     第
-                    <span style={{fontWeight: 'bold'}}>{item.start}</span>
+                    <span style={{fontWeight: 'bold'}}>{item.start + 1}</span>
                     节课 -- 第
-                    <span style={{fontWeight: 'bold'}}>{item.start + item.time - 1}</span>
+                    <span style={{fontWeight: 'bold'}}>{item.start + item.time}</span>
                     节课
                   </span>
                 </div>

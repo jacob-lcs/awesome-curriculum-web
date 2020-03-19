@@ -21,7 +21,10 @@ interface IState {
   courseDetailData: IData;
 }
 
-class Square extends React.Component<{}, IState> {
+interface IProps {
+  updateCourseList: any;
+}
+class Square extends React.Component<IProps, IState> {
   constructor(props: any) {
     super(props);
     this.state = {
@@ -51,6 +54,19 @@ class Square extends React.Component<{}, IState> {
         this.setState({
           courseList: response.data,
         });
+        const courses: string[] = [];
+        const res: any[] = [];
+        for (const item of this.state.courseList) {
+          if (!courses.includes(item.name)) {
+            courses.push(item.name);
+            res.push({
+              id: item.id,
+              name: item.name,
+              choose: false,
+            });
+          }
+        }
+        this.props.updateCourseList(res);
       })
       .catch((error) => console.error(error));
   }

@@ -8,8 +8,27 @@ import './style/App.css';
 import { getName, getToken } from './utils/auth';
 // import courses from './utils/getCourses/index';
 
-// const App: React.FC = ()
-class App extends React.Component {
+interface IState {
+  courseList: any;
+}
+
+class App extends React.Component<{}, IState> {
+  constructor(props: any) {
+    super(props);
+    this.state = {
+      courseList: [],
+    };
+  }
+
+  /**
+   * updateCourseList
+   */
+  public updateCourseList = (courseList: any) => {
+    console.log(courseList);
+    this.setState({
+      courseList,
+    });
+  }
   public downloadImg = () => {
     const element = document.getElementsByClassName('square-container')[0] as HTMLElement;
     html2canvas(element as HTMLElement).then((canvas: any) => {
@@ -59,8 +78,8 @@ class App extends React.Component {
   public render() {
     return (
       <div className='App'>
-        <Head downloadImg={this.downloadImg} />
-        <Square />
+        <Head downloadImg={this.downloadImg} courseList={this.state.courseList}/>
+        <Square updateCourseList={this.updateCourseList}/>
         <Footer />
       </div>
     );

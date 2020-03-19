@@ -6,39 +6,23 @@ import './Chat.css';
 
 let socket: any = '';
 
-interface ICourse {
-  name: string;
-  choose: boolean;
-}
-
 interface IState {
   avatar: string;
   name: string;
-  courseList: ICourse[];
   chooseCourse: string;
   chatContent: any;
 }
 
-class Chat extends React.Component<{}, IState> {
+interface IProps {
+  courseList: any[];
+}
+
+class Chat extends React.Component<IProps, IState> {
   constructor(props: any) {
     super(props);
     this.state = {
       avatar: getAvatar() as string,
       name: getName() as string,
-      courseList: [
-        {
-          name: '数据结构',
-          choose: true,
-        },
-        {
-          name: '高等数学',
-          choose: false,
-        },
-        {
-          name: '大学英语',
-          choose: false,
-        },
-      ],
       chooseCourse: '数据结构',
       chatContent: [],
     };
@@ -48,12 +32,10 @@ class Chat extends React.Component<{}, IState> {
    * handleCourseClick
    */
   public handleCourseClick = (name: any) => {
-    const courseList = this.state.courseList;
-    courseList.forEach((e) => (e.choose = false));
-    const index = courseList.findIndex((e) => e.name === name);
-    courseList[index].choose = true;
+    this.props.courseList.forEach((e) => (e.choose = false));
+    const index = this.props.courseList.findIndex((e) => e.name === name);
+    this.props.courseList[index].choose = true;
     this.setState({
-      courseList,
       chooseCourse: name,
     });
   }
@@ -62,7 +44,6 @@ class Chat extends React.Component<{}, IState> {
    * sendMessage
    */
   public sendMessage = () => {};
-
   public componentDidMount = () => {
     // 建立websocket连接
     socket = io('https://coursehelper.online:5000');
@@ -112,7 +93,7 @@ class Chat extends React.Component<{}, IState> {
             className='chat-container__user-avatar'
           />
           <span className='chat-container__user-name'>{this.state.name}</span>
-          <Popover content='课程群聊目前只支持自动导入的课程' placement='right'>
+          <Popover content='与你的学校、课程各项信息相同的用户会进入同一个群聊' placement='right'>
             <Icon
               type='question-circle'
               className='chat-container__user-icon'
@@ -120,7 +101,7 @@ class Chat extends React.Component<{}, IState> {
           </Popover>
         </div>
         <div className='chat-container__chat-list'>
-          {this.state.courseList.map((course) => {
+          {this.props.courseList.map((course) => {
             return (
               <div
                 className='course-item'

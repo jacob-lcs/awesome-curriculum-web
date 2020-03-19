@@ -9,6 +9,7 @@ import './Head.css';
 
 interface IProps {
   downloadImg: any;
+  courseList: any;
 }
 
 interface IState {
@@ -136,7 +137,7 @@ class Head extends React.Component<IProps, IState> {
           footer={null}
           className='chatModal'
         >
-          <Chat />
+          <Chat courseList={this.props.courseList}/>
         </Modal>
       </div>
     );
