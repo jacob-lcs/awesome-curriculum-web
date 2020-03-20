@@ -63,6 +63,7 @@ class Square extends React.Component<IProps, IState> {
               id: item.id,
               name: item.name,
               choose: false,
+              courseNo: item.courseNo,
             });
           }
         }
