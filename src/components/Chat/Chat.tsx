@@ -66,14 +66,24 @@ class Chat extends React.Component<IProps, IState> {
     const res = this.state.chatContent.find((item: any) => item.courseName === this.state.chooseCourse);
     if (res) {
       res.data.push({
+        self: true,
         content: this.state.messageInput,
+        from: {
+          avatar: getAvatar(),
+          username: getName(),
+        },
       });
     } else {
       const chatContent = this.state.chatContent;
       chatContent.push({
         courseName: this.state.chooseCourse,
         data: [{
+          self: true,
           content: this.state.messageInput,
+          from: {
+            avatar: getAvatar(),
+            username: getName(),
+          },
         }],
       });
       this.setState({
@@ -88,18 +98,23 @@ class Chat extends React.Component<IProps, IState> {
   /**
    * insertMessage
    */
-  public insertMessage(name: string, content: string) {
+  public insertMessage(name: string, content: string, from: any) {
     const chatContent = this.state.chatContent;
     const res = chatContent.find((item: any) => item.courseName === name);
+    console.log(from);
     if (res) {
       res.data.push({
+        self: false,
         content,
+        from,
       });
     } else {
       chatContent.push({
         courseName: name,
         data: [{
+          self: false,
           content,
+          from,
         }],
       });
     }
@@ -119,7 +134,7 @@ class Chat extends React.Component<IProps, IState> {
       });
       socket.on('broadcast message', (data: any) => {
         console.log(data.content);
-        this.insertMessage(data.courseName, data.content);
+        this.insertMessage(data.courseName, data.content, data.from);
       });
     });
     this.setState({
@@ -176,7 +191,49 @@ class Chat extends React.Component<IProps, IState> {
               this.state.chatContent
                 .find((item: any) => item.courseName === this.state.chooseCourse)
                 .data.map((item: any, index: number) => {
-                  return <div key={index}>{item.content}</div>;
+                  return !item.self ? <div key={index} className='message--2l0Oz '>
+                  <img
+                    className='avatar--2ifA1'
+                    src={item.from.avatar}
+                    alt=''
+                    style={{width: '44px', height: '44px', borderRadius: '22px'}}
+                  />
+                  <div className='right--39-4H'>
+                    <div className='nicknameTimeBlock--2H_Hk'>
+                      <span className='nickname--3Gfts'>{item.from.username}</span>
+                      {/* <span className='time--3uGVq'>19:40</span> */}
+                    </div>
+                    <div className='contentButtonBlock--3wqjA'>
+                      <div className='content--2PkJk'>
+                        <div className='textMessage--371Pk'>{item.content}</div>
+                      </div>
+                    </div>
+                    <div className='arrow--1BPRE'/>
+                  </div>
+                </div> : <div
+                  key={index}
+                  className='message--2l0Oz'
+                  style={{marginLeft: '54px', marginRight: '10px', justifyContent: 'flex-end'}}>
+                  <div className='right--39-4H'>
+                    <div className='nicknameTimeBlock--2H_Hk'>
+                      <span className='nickname--3Gfts'>{item.from.username}</span>
+                      {/* <span className='time--3uGVq'>19:40</span> */}
+                    </div>
+                    <div className='contentButtonBlock--3wqjA' style={{marginRight: '10px'}}>
+                      <div className='content--2PkJk'>
+                        <div className='textMessage--371Pk'>{item.content}</div>
+                      </div>
+                    </div>
+                    <div className='arrow--1BPRE' style={{right: '54px', left: 'unset'}}/>
+                  </div>
+                  <img
+                    className='avatar--2ifA1'
+                    src={item.from.avatar}
+                    alt=''
+                    style={{width: '44px', height: '44px', borderRadius: '22px'}}
+                  />
+                </div>
+                ;
                 })
             ) : (
               <div />

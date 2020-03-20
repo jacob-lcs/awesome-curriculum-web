@@ -89,3 +89,58 @@
 .chat-container__content .ant-divider.ant-divider-horizontal{
   margin: 0px !important;
 }
+.message--2l0Oz {
+  display: -ms-flexbox;
+  display: flex;
+  margin-right: 54px;
+  margin-bottom: 10px;
+  position: relative;
+  margin-left: 10px;
+}
+.right--39-4H {
+  margin-left: 12px;
+}
+.nicknameTimeBlock--2H_Hk {
+  height: 20px;
+  display: flex;
+  align-items: flex-end;
+}
+.nickname--3Gfts {
+  color: #333;
+  font-size: 13px;
+  user-select: text;
+  margin-right: 4px;
+}
+
+.time--3uGVq {
+  color: #666;
+  font-size: 12px;
+}
+.contentButtonBlock--3wqjA {
+  display: flex;
+}
+.content--2PkJk {
+  display: inline-block;
+  color: #555;
+  font-size: 14px;
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 6px 8px;
+  border-radius: 8px;
+  border-top-left-radius: 0px;
+  min-height: 28px;
+  margin-top: 3px;
+}
+.textMessage--371Pk {
+  user-select: text;
+  word-break: break-word;
+}
+.arrow--1BPRE {
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0px 7px 15px 0;
+  border-color: transparent rgba(255, 255, 255, 0.8) transparent transparent;
+  position: absolute;
+  top: 23px;
+  left: 49px;
+}
