@@ -56,7 +56,7 @@ class Chat extends React.Component<IProps, IState> {
   /**
    * sendMessage
    */
-  public sendMessage = (course: string) => {
+  public sendMessage = () => {
     this.state.socket.emit('send message', {
       from: getToken(),
       content: this.state.messageInput,
@@ -89,23 +89,23 @@ class Chat extends React.Component<IProps, IState> {
    * insertMessage
    */
   public insertMessage(name: string, content: string) {
-    const res = this.state.chatContent.find((item: any) => item.courseName === name);
+    const chatContent = this.state.chatContent;
+    const res = chatContent.find((item: any) => item.courseName === name);
     if (res) {
       res.data.push({
         content,
       });
     } else {
-      const chatContent = this.state.chatContent;
       chatContent.push({
         courseName: name,
         data: [{
           content,
         }],
       });
-      this.setState({
-        chatContent,
-      });
     }
+    this.setState({
+      chatContent,
+    });
   }
   public componentDidMount = () => {
     // 建立websocket连接
@@ -125,34 +125,7 @@ class Chat extends React.Component<IProps, IState> {
     this.setState({
       socket,
     });
-
-    // this.state.socket.onmessage = (event: any) => {
-    //   const data = JSON.parse(event.data);
-    //   const chatContent = this.state.chatContent;
-    //   console.log(data);
-    //   const fil = chatContent.filter((item: any) => item.courseName === data.courseName);
-    //   if (!fil.length) {
-    //     console.log(111);
-    //     chatContent.push({
-    //       courseName: data.courseName,
-    //       data: [{
-    //         id: data.id,
-    //         content: data.content,
-    //       }],
-    //     });
-    //     console.log(data.courseName, chatContent);
-    //   } else {
-    //     const f = chatContent.find((item: any) => item.courseName === data.courseName);
-    //     console.log(f);
-    //     f.data.push({
-    //       id: data.id,
-    //       content: data,
-    //     });
-    //   }
-    //   this.setState({
-    //     chatContent,
-    //   });
-    // };
+    this.handleCourseClick(this.props.courseList[0].name);
   }
 
   public render() {
@@ -212,7 +185,7 @@ class Chat extends React.Component<IProps, IState> {
           <div className='content__input'>
             <Icon type='smile' className='content__input__emoji' />
             <Input className='content__input__edit' value={this.state.messageInput} onChange={this.messageInputChange}/>
-            <Button onClick={this.sendMessage.bind(this, this.state.chooseCourse)}>发送</Button>
+            <Button onClick={this.sendMessage}>发送</Button>
           </div>
         </div>
       </div>
