@@ -79,6 +79,14 @@
   width: 70%;
   margin-right: 20px;
 }
+.self--2uoUC .right--39-4H {
+  margin-left: 0px;
+  margin-right: 12px;
+  display: -ms-flexbox;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
 .content__input__emoji{
   font-size: 20px;
   color: white;
@@ -97,8 +105,27 @@
   position: relative;
   margin-left: 10px;
 }
+.self--2uoUC {
+  flex-direction: row-reverse;
+  margin-right: 0px;
+  margin-left: 54px;
+}
 .right--39-4H {
   margin-left: 12px;
+}
+.self--2uoUC .content--2PkJk {
+  border-top-left-radius: 8px;
+  border-top-right-radius: 0px;
+}
+.self--2uoUC .arrow--1BPRE {
+  border-width: 0 0 15px 7px;
+  border-color: #00000000;
+  left: initial;
+  right: 49px;
+  top: 23px;
+}
+.self--2uoUC .contentButtonBlock--3wqjA {
+  flex-direction: row-reverse;
 }
 .nicknameTimeBlock--2H_Hk {
   height: 20px;

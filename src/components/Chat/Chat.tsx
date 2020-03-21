@@ -1,6 +1,7 @@
-import { Avatar, Button, Divider, Icon, Input, Popover } from 'antd';
+import { Avatar, Button, Divider, Icon, Input, message, Popover } from 'antd';
 import React from 'react';
 import io from 'socket.io-client';
+import { queryHistoryMessage } from '../../api/message';
 import { getAvatar, getName, getSchool, getToken } from '../../utils/auth';
 import './Chat.css';
 
@@ -13,6 +14,7 @@ interface IState {
   chatContent: any;
   messageInput: string;
   socket: any;
+  request: boolean;
 }
 
 interface IProps {
@@ -29,6 +31,7 @@ class Chat extends React.Component<IProps, IState> {
       chatContent: [],
       messageInput: '',
       socket: '',
+      request: false,
     };
   }
 
@@ -45,6 +48,55 @@ class Chat extends React.Component<IProps, IState> {
   }
 
   /**
+   * watchScroll
+   */
+  public watchScroll = () => {
+    const contentChat = document.getElementsByClassName('content__chat')[0];
+    if (contentChat.scrollTop === 0
+        && !this.state.request
+        && this.state.chatContent.find((x: any) => x.courseName === this.state.chooseCourse).data.length !== 0) {
+      this.setState({
+        request: true,
+      });
+      const data = this.state.chatContent.find((x: any) => x.courseName === this.state.chooseCourse).data[0];
+      queryHistoryMessage(data).then((response: any) => {
+        const messageContent = this.state.chatContent;
+        messageContent.find((x: any) => x.courseName === this.state.chooseCourse).data.unshift(...response.data);
+        this.setState({
+          chatContent: messageContent,
+        });
+        console.log('请求结果', response);
+        this.setState({
+          request: false,
+        });
+      });
+    }
+  }
+
+  /**
+   * getMessageData
+   */
+  public getMessageData = () => {
+    const data = {
+      id: 0,
+      data: this.props.courseList,
+      school: getSchool(),
+    };
+    queryHistoryMessage(data).then((response: any) => {
+      this.setState({
+        chatContent: response.data,
+      });
+      setTimeout(() => {
+        this.scrollToBottom();
+      }, 100);
+      console.log('请求结果', response);
+      this.setState({
+        request: false,
+      });
+    });
+  }
+
+  /**
    * messageInputChange
    */
   public messageInputChange = (e: any) => {
@@ -54,67 +106,57 @@ class Chat extends React.Component<IProps, IState> {
   }
 
   /**
+   * scrollToBottom
+   */
+  public scrollToBottom = () => {
+    const contentChat = document.getElementsByClassName('content__chat')[0];
+    contentChat.scrollTop = contentChat.scrollHeight;
+  }
+
+  /**
    * sendMessage
    */
   public sendMessage = () => {
-    this.state.socket.emit('send message', {
-      from: getToken(),
-      content: this.state.messageInput,
-      to: this.props.courseList.filter((x: any) => x.name === this.state.chooseCourse)[0],
-      school: getSchool(),
-    });
-    const res = this.state.chatContent.find((item: any) => item.courseName === this.state.chooseCourse);
-    if (res) {
-      res.data.push({
-        self: true,
+    if (this.state.messageInput.length) {
+      this.state.socket.emit('send message', {
+        from: getToken(),
         content: this.state.messageInput,
-        from: {
-          avatar: getAvatar(),
-          username: getName(),
-        },
-      });
-    } else {
-      const chatContent = this.state.chatContent;
-      chatContent.push({
-        courseName: this.state.chooseCourse,
-        data: [{
-          self: true,
-          content: this.state.messageInput,
-          from: {
-            avatar: getAvatar(),
-            username: getName(),
-          },
-        }],
+        to: this.props.courseList.filter((x: any) => x.name === this.state.chooseCourse)[0],
+        school: getSchool(),
       });
       this.setState({
-        chatContent,
+        messageInput: '',
       });
+    } else {
+      message.warning('请不要输入空内容');
     }
-    this.setState({
-      messageInput: '',
-    });
+
   }
 
   /**
    * insertMessage
    */
-  public insertMessage(name: string, content: string, from: any) {
+  public insertMessage(name: string, content: string, from: any, id: number, time: string, self: boolean) {
     const chatContent = this.state.chatContent;
     const res = chatContent.find((item: any) => item.courseName === name);
     console.log(from);
     if (res) {
       res.data.push({
-        self: false,
+        self,
         content,
         from,
+        id,
+        time,
       });
     } else {
       chatContent.push({
         courseName: name,
         data: [{
-          self: false,
+          self,
           content,
           from,
+          id,
+          time,
         }],
       });
     }
@@ -133,14 +175,17 @@ class Chat extends React.Component<IProps, IState> {
         school: getSchool(),
       });
       socket.on('broadcast message', (data: any) => {
-        console.log(data.content);
-        this.insertMessage(data.courseName, data.content, data.from);
+        console.log(data);
+        this.insertMessage(data.courseName, data.content, data.from, data.id, data.time, data.self);
+        this.scrollToBottom();
       });
     });
     this.setState({
       socket,
     });
     this.handleCourseClick(this.props.courseList[0].name);
+    this.getMessageData();
+
   }
 
   public render() {
@@ -184,7 +229,7 @@ class Chat extends React.Component<IProps, IState> {
             <span>{this.state.chooseCourse}</span>
           </div>
           <Divider />
-          <div className='content__chat'>
+          <div className='content__chat' onScroll={this.watchScroll}>
             {this.state.chatContent.find(
               (item: any) => item.courseName === this.state.chooseCourse,
             ) ? (
@@ -210,28 +255,25 @@ class Chat extends React.Component<IProps, IState> {
                     </div>
                     <div className='arrow--1BPRE'/>
                   </div>
-                </div> : <div
-                  key={index}
-                  className='message--2l0Oz'
-                  style={{marginLeft: '54px', marginRight: '10px', justifyContent: 'flex-end'}}>
-                  <div className='right--39-4H'>
-                    <div className='nicknameTimeBlock--2H_Hk'>
-                      <span className='nickname--3Gfts'>{item.from.username}</span>
-                      {/* <span className='time--3uGVq'>19:40</span> */}
-                    </div>
-                    <div className='contentButtonBlock--3wqjA' style={{marginRight: '10px'}}>
-                      <div className='content--2PkJk'>
-                        <div className='textMessage--371Pk'>{item.content}</div>
-                      </div>
-                    </div>
-                    <div className='arrow--1BPRE' style={{right: '54px', left: 'unset'}}/>
-                  </div>
+                </div> : <div className='message--2l0Oz self--2uoUC'>
                   <img
                     className='avatar--2ifA1'
                     src={item.from.avatar}
                     alt=''
                     style={{width: '44px', height: '44px', borderRadius: '22px'}}
                   />
+                  <div className='right--39-4H'>
+                    <div className='nicknameTimeBlock--2H_Hk'>
+                      <span className='nickname--3Gfts'>{item.from.username}</span>
+                      {/* <span className='time--3uGVq'>昨天 17:01</span> */}
+                    </div>
+                    <div className='contentButtonBlock--3wqjA'>
+                      <div className='content--2PkJk'>
+                        <div className='textMessage--371Pk'>{item.content}</div>
+                      </div>
+                    </div>
+                    <div className='arrow--1BPRE'/>
+                  </div>
                 </div>
                 ;
                 })
