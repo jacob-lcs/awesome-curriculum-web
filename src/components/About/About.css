@@ -1,0 +1,13 @@
+.about-container{
+  text-align: center;
+}
+.about-title{
+  margin-top: 20px;
+}
+.about-icons{
+  font-size: 20px;
+}
+.about-icon{
+  margin: 10px;
+  cursor: pointer;
+}

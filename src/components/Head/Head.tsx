@@ -1,6 +1,7 @@
 import { Avatar, Drawer, Icon, Layout, Modal, Popover } from 'antd';
 import React from 'react';
 import { getAvatar } from '../../utils/auth';
+import About from '../About/About';
 import Chat from '../Chat/Chat';
 import Draw from '../Draw/Draw';
 import UserInfo from '../UserInfo/UserInfo';
@@ -16,6 +17,7 @@ interface IState {
   drawVisible: boolean;
   modalVisible: boolean;
   chatModalVisible: boolean;
+  aboutModalVisible: boolean;
 }
 
 const { Header } = Layout;
@@ -26,6 +28,7 @@ class Head extends React.Component<IProps, IState> {
       drawVisible: false,
       modalVisible: false,
       chatModalVisible: false,
+      aboutModalVisible: false,
     };
   }
 
@@ -61,7 +64,14 @@ class Head extends React.Component<IProps, IState> {
       chatModalVisible: false,
     });
   }
-
+  /**
+   * aboutModalCancle
+   */
+  public aboutModalCancle = () => {
+    this.setState({
+      aboutModalVisible: false,
+    });
+  }
   /**
    * showUserModal
    */
@@ -77,6 +87,15 @@ class Head extends React.Component<IProps, IState> {
   public showChatModal = () => {
     this.setState({
       chatModalVisible: true,
+    });
+  }
+
+  /**
+   * showAboutModal
+   */
+  public showAboutModal = () => {
+    this.setState({
+      aboutModalVisible: true,
     });
   }
 
@@ -101,6 +120,11 @@ class Head extends React.Component<IProps, IState> {
           <Popover content='进入课程群聊' placement='bottom'>
             <div className='head__item' onClick={this.showChatModal}>
               <Icon type='sound' className='head__item-icon' />
+            </div>
+          </Popover>
+          <Popover content='关于' placement='bottom'>
+            <div className='head__item' onClick={this.showAboutModal}>
+            <Icon type='info-circle'  className='head__item-icon'/>
             </div>
           </Popover>
           <div onClick={this.showUserModal}>
@@ -138,6 +162,14 @@ class Head extends React.Component<IProps, IState> {
           className='chatModal'
         >
           <Chat courseList={this.props.courseList}/>
+        </Modal>
+
+        <Modal
+          visible={this.state.aboutModalVisible}
+          onCancel={this.aboutModalCancle}
+          centered={true}
+          footer={null}>
+          <About />
         </Modal>
       </div>
     );
