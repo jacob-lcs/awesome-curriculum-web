@@ -99,38 +99,47 @@ class UserInfo extends React.Component<{}, IState> {
    * updateName
    */
   public updateName = () => {
-    const data = {
-      name: this.state.inputName,
-    };
-    updateName(data).then((response) => {
-      setName(this.state.inputName, {
-        expires: 15,
+    if (this.state.inputName.trim().length !== 0) {
+      const data = {
+        name: this.state.inputName,
+      };
+      updateName(data).then((response) => {
+        setName(this.state.inputName, {
+          expires: 15,
+        });
+        message.success('修改成功！');
+        this.setState({
+          editName: false,
+          userName: this.state.inputName,
+        });
       });
-      message.success('修改成功！');
-      this.setState({
-        editName: false,
-        userName: this.state.inputName,
-      });
-    });
+    } else {
+      message.warning('请不要输入空内容');
+    }
   }
 
   /**
    * updateSchool
    */
   public updateSchool = () => {
-    const data = {
-      school: this.state.inputSchool,
-    };
-    updateSchool(data).then((response) => {
-      setSchool(this.state.inputSchool, {
-        expires: 15,
-      });
-      message.success('修改成功！');
-      this.setState({
-        editSchool: false,
+    if (this.state.inputSchool.trim().length !== 0) {
+      const data = {
         school: this.state.inputSchool,
+      };
+      updateSchool(data).then((response) => {
+        setSchool(this.state.inputSchool, {
+          expires: 15,
+        });
+        message.success('修改成功！');
+        this.setState({
+          editSchool: false,
+          school: this.state.inputSchool,
+        });
       });
-    });
+    } else {
+      message.warning('请不要输入空内容');
+    }
+
   }
 
   /**
