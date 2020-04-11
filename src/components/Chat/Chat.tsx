@@ -2,8 +2,10 @@ import { Avatar, Button, Divider, Icon, Input, message, Popover } from 'antd';
 import Picker from 'emoji-picker-react';
 import React from 'react';
 import io from 'socket.io-client';
+import { uploadFile } from '../../api/common';
 import { checkMessageSendByMyself, queryHistoryMessage } from '../../api/message';
 import { getAvatar, getName, getSchool, getToken } from '../../utils/auth';
+import compressFile from '../../utils/compress';
 import './Chat.css';
 
 let socket: any = '';
@@ -46,10 +48,50 @@ class Chat extends React.Component<IProps, IState> {
       messageInput: `${messageInput}${emojiObject.emoji}`,
     });
   }
+  /**
+   * inputFileChange
+   */
+  public inputFileChange = (event: any) => {
+    const fileList = event.target.files;
+    if (fileList.length > 0) {
+      const file = fileList[0];
+      compressFile(file, (res: any) => {
+        const formData = new FormData();
+        formData.append('file', res);
+        formData.append('notAvatar', 'true');
+        uploadFile(formData).then((response: any) => {
+          this.state.socket.emit('send message', {
+            from: getToken(),
+            content: `https://coursehelper.online:3000/${response.fileName}`,
+            to: this.props.courseList.filter((x: any) => x.name === this.state.chooseCourse)[0],
+            school: getSchool(),
+            type: 'image',
+          });
+        }).catch((error) => {
+          console.error(error);
+        });
+      });
+
+    }
+  }
   // tslint:disable-next-line: member-ordering
   public emojiPicker = (
     <div>
       <Picker onEmojiClick={this.onEmojiClick}/>
+    </div>
+  );
+
+  // tslint:disable-next-line: member-ordering
+  public messageTypePicker = (
+    <div>
+      <div>
+      发送图片
+      <input
+        type='file'
+        accept='image/*' className='upload' onChange={this.inputFileChange} style={{height: '20px'}}/>
+      </div>
+      <hr/>
+      <div style={{cursor: 'pointer'}}>发送代码</div>
     </div>
   );
 
@@ -78,7 +120,6 @@ class Chat extends React.Component<IProps, IState> {
       });
       const data = this.state.chatContent.find((x: any) => x.courseName === this.state.chooseCourse).data[0];
       queryHistoryMessage(data).then((response: any) => {
-        const res = response.data;
         const messageContent = this.state.chatContent;
         messageContent.find((x: any) => x.courseName === this.state.chooseCourse).data.unshift(...response.data);
         this.setState({
@@ -140,6 +181,7 @@ class Chat extends React.Component<IProps, IState> {
         content: this.state.messageInput,
         to: this.props.courseList.filter((x: any) => x.name === this.state.chooseCourse)[0],
         school: getSchool(),
+        type: 'text',
       });
       this.setState({
         messageInput: '',
@@ -153,7 +195,8 @@ class Chat extends React.Component<IProps, IState> {
   /**
    * insertMessage
    */
-  public insertMessage(name: string, content: string, from: any, id: number, time: string, self: boolean) {
+  // tslint:disable-next-line: max-line-length
+  public insertMessage(name: string, content: string, from: any, id: number, time: string, self: boolean, type: string) {
     const chatContent = this.state.chatContent;
     const res = chatContent.find((item: any) => item.courseName === name);
     if (res) {
@@ -163,6 +206,7 @@ class Chat extends React.Component<IProps, IState> {
         from,
         id,
         time,
+        type,
       });
     } else {
       chatContent.push({
@@ -173,6 +217,7 @@ class Chat extends React.Component<IProps, IState> {
           from,
           id,
           time,
+          type,
         }],
       });
     }
@@ -192,7 +237,7 @@ class Chat extends React.Component<IProps, IState> {
       });
       socket.on('broadcast message', (data: any) => {
         checkMessageSendByMyself({id: data.id}).then((res: any) => {
-          this.insertMessage(data.courseName, data.content, data.from, data.id, data.time, res.res);
+          this.insertMessage(data.courseName, data.content, data.from, data.id, data.time, res.res, data.type);
           this.scrollToBottom();
         });
       });
@@ -267,7 +312,12 @@ class Chat extends React.Component<IProps, IState> {
                     </div>
                     <div className='contentButtonBlock--3wqjA'>
                       <div className='content--2PkJk'>
-                        <div className='textMessage--371Pk'>{item.content}</div>
+                          <div className='textMessage--371Pk'>
+                        {
+                          item.type === 'text' ? item.content :
+                          <img src={item.content} alt='图片' style={{maxWidth: '80%'}}/>
+                        }
+                        </div>
                       </div>
                     </div>
                     <div className='arrow--1BPRE'/>
@@ -286,7 +336,12 @@ class Chat extends React.Component<IProps, IState> {
                     </div>
                     <div className='contentButtonBlock--3wqjA'>
                       <div className='content--2PkJk'>
-                        <div className='textMessage--371Pk'>{item.content}</div>
+                        <div className='textMessage--371Pk'>
+                        {
+                          item.type === 'text' ? item.content :
+                          <img src={item.content} alt='图片' style={{maxWidth: '80%'}}/>
+                        }
+                        </div>
                       </div>
                     </div>
                     <div className='arrow--1BPRE'/>
@@ -302,8 +357,11 @@ class Chat extends React.Component<IProps, IState> {
             <Popover content={this.emojiPicker} trigger='click'>
               <Icon type='smile' className='content__input__emoji' />
             </Popover>
+            <Popover content={this.messageTypePicker} trigger='click'>
+              <Icon type='plus-circle' className='content__input__emoji' />
+            </Popover>
             <Input className='content__input__edit' value={this.state.messageInput} onChange={this.messageInputChange}/>
-            <Button onClick={this.sendMessage}>发送</Button>
+            <Button onClick={this.sendMessage} style={{marginRight: '10px'}}>发送</Button>
           </div>
         </div>
       </div>
