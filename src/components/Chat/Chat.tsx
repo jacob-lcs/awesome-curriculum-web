@@ -1,7 +1,8 @@
 import { Avatar, Button, Divider, Icon, Input, message, Popover } from 'antd';
+import Picker from 'emoji-picker-react';
 import React from 'react';
 import io from 'socket.io-client';
-import { queryHistoryMessage } from '../../api/message';
+import { checkMessageSendByMyself, queryHistoryMessage } from '../../api/message';
 import { getAvatar, getName, getSchool, getToken } from '../../utils/auth';
 import './Chat.css';
 
@@ -22,6 +23,7 @@ interface IProps {
 }
 
 class Chat extends React.Component<IProps, IState> {
+
   constructor(props: any) {
     super(props);
     this.state = {
@@ -34,6 +36,22 @@ class Chat extends React.Component<IProps, IState> {
       request: false,
     };
   }
+
+  /**
+   * onEmojiClick
+   */
+  public onEmojiClick = (event: any, emojiObject: any) => {
+    const messageInput = this.state.messageInput;
+    this.setState({
+      messageInput: `${messageInput}${emojiObject.emoji}`,
+    });
+  }
+  // tslint:disable-next-line: member-ordering
+  public emojiPicker = (
+    <div>
+      <Picker onEmojiClick={this.onEmojiClick}/>
+    </div>
+  );
 
   /**
    * handleCourseClick
@@ -60,12 +78,12 @@ class Chat extends React.Component<IProps, IState> {
       });
       const data = this.state.chatContent.find((x: any) => x.courseName === this.state.chooseCourse).data[0];
       queryHistoryMessage(data).then((response: any) => {
+        const res = response.data;
         const messageContent = this.state.chatContent;
         messageContent.find((x: any) => x.courseName === this.state.chooseCourse).data.unshift(...response.data);
         this.setState({
           chatContent: messageContent,
         });
-        console.log('请求结果', response);
         this.setState({
           request: false,
         });
@@ -89,7 +107,6 @@ class Chat extends React.Component<IProps, IState> {
       setTimeout(() => {
         this.scrollToBottom();
       }, 100);
-      console.log('请求结果', response);
       this.setState({
         request: false,
       });
@@ -139,7 +156,6 @@ class Chat extends React.Component<IProps, IState> {
   public insertMessage(name: string, content: string, from: any, id: number, time: string, self: boolean) {
     const chatContent = this.state.chatContent;
     const res = chatContent.find((item: any) => item.courseName === name);
-    console.log(from);
     if (res) {
       res.data.push({
         self,
@@ -175,9 +191,10 @@ class Chat extends React.Component<IProps, IState> {
         school: getSchool(),
       });
       socket.on('broadcast message', (data: any) => {
-        console.log(data);
-        this.insertMessage(data.courseName, data.content, data.from, data.id, data.time, data.self);
-        this.scrollToBottom();
+        checkMessageSendByMyself({id: data.id}).then((res: any) => {
+          this.insertMessage(data.courseName, data.content, data.from, data.id, data.time, res.res);
+          this.scrollToBottom();
+        });
       });
     });
     this.setState({
@@ -255,7 +272,7 @@ class Chat extends React.Component<IProps, IState> {
                     </div>
                     <div className='arrow--1BPRE'/>
                   </div>
-                </div> : <div className='message--2l0Oz self--2uoUC'>
+                </div> : <div className='message--2l0Oz self--2uoUC'  key={index}>
                   <img
                     className='avatar--2ifA1'
                     src={item.from.avatar}
@@ -282,7 +299,9 @@ class Chat extends React.Component<IProps, IState> {
             )}
           </div>
           <div className='content__input'>
-            <Icon type='smile' className='content__input__emoji' />
+            <Popover content={this.emojiPicker} trigger='click'>
+              <Icon type='smile' className='content__input__emoji' />
+            </Popover>
             <Input className='content__input__edit' value={this.state.messageInput} onChange={this.messageInputChange}/>
             <Button onClick={this.sendMessage}>发送</Button>
           </div>

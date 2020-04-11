@@ -8,6 +8,15 @@ const queryHistoryMessage = (data: object) => {
   });
 };
 
+const checkMessageSendByMyself = (data: object) => {
+  return request({
+    url: '/api/message/checkMessageSendByMyself',
+    method: 'post',
+    data,
+  });
+};
+
 export {
   queryHistoryMessage,
+  checkMessageSendByMyself,
 };
