@@ -24,7 +24,6 @@ class App extends React.Component<{}, IState> {
    * updateCourseList
    */
   public updateCourseList = (courseList: any) => {
-    console.log(courseList);
     this.setState({
       courseList,
     });

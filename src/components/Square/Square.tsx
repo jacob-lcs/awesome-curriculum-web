@@ -156,7 +156,6 @@ class Square extends React.Component<IProps, IState> {
         time: item.time,
       });
     }
-    console.log(courseDetailData);
     this.setState({
       courseDetailVisible: true,
       courseDetailData,
