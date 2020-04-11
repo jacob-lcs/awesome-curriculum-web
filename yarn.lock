@@ -3824,6 +3824,11 @@ elliptic@^6.0.0:
     minimalistic-assert "^1.0.0"
     minimalistic-crypto-utils "^1.0.0"
 
+emoji-picker-react@^3.1.4:
+  version "3.1.4"
+  resolved "https://registry.npm.taobao.org/emoji-picker-react/download/emoji-picker-react-3.1.4.tgz#807a6916a4c3e0721977d35d1976b158f54cb765"
+  integrity sha1-gHppFqTD4HIZd9NdGXaxWPVMt2U=
+
 emoji-regex@^7.0.1, emoji-regex@^7.0.2:
   version "7.0.3"
   resolved "https://registry.npmjs.org/emoji-regex/-/emoji-regex-7.0.3.tgz#933a04052860c85e83c122479c4748a8e4c72156"
