@@ -32,6 +32,7 @@
 .chat-container__chat-list{
   flex: 3;
   background-color: #4AA89B;
+  overflow-y: scroll;
 }
 .course-item{
   height: 70px;
