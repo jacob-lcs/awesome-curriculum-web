@@ -5,7 +5,8 @@ import { getName, getToken, removeInfo } from './auth';
 // create an axios instance
 const service = axios.create({
   baseURL: 'https://coursehelper.online:3000', // url = base url + request url
-  timeout: 5000, // request timeout
+  // baseURL: 'http://localhost:3001/',
+  timeout: 50000, // request timeout
   // withCredentials: true, // send cookies when cross-domain requests
 });
 

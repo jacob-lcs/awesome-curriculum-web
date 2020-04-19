@@ -1,0 +1,10 @@
+.ant-drawer-title{
+  text-align: center;
+  font-weight: bold;
+}
+.search__block{
+  text-align: center;
+}
+.courseTab .ant-tabs-nav-scroll{
+  font-size: 15px;
+}

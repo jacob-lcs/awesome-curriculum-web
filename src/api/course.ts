@@ -31,9 +31,45 @@ const updateCourse = (data: object) => {
   });
 };
 
+const searchCourse = (data: object) => {
+  return request({
+    url: '/api/course/searchCourse',
+    method: 'post',
+    data,
+  });
+};
+
+const getFavoriteCourse = (data: object) => {
+  return request({
+    url: '/api/course/favoriteCourse',
+    method: 'post',
+    data,
+  });
+};
+
+const collectCourse = (data: object) => {
+  return request({
+    url: '/api/course/collectCourse',
+    method: 'post',
+    data,
+  });
+};
+
+const deleteFavorite = (data: object) => {
+  return request({
+    url: '/api/course/deleteFavorite',
+    method: 'post',
+    data,
+  });
+};
+
 export {
   addCourse,
   queryCourse,
   updateCourse,
   deleteCourse,
+  searchCourse,
+  collectCourse,
+  deleteFavorite,
+  getFavoriteCourse,
 };

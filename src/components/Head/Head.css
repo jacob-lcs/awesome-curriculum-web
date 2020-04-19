@@ -62,3 +62,10 @@
 .chatModal .ant-modal-body{
     height: 80vh !important;
 }
+
+.ant-drawer-header{
+    border-bottom: none;
+}
+.ant-drawer-body{
+    padding: unset;
+}

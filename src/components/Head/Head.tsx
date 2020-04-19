@@ -103,7 +103,7 @@ class Head extends React.Component<IProps, IState> {
     return (
       <div>
         <Header className='head'>
-          <Popover content='打开菜单' placement='bottom'>
+          <Popover content='课程推荐' placement='bottom'>
             <div className='head__item menu' onClick={this.openDrawer}>
               <Icon type='menu' className='head__item-icon' />
             </div>
@@ -135,11 +135,12 @@ class Head extends React.Component<IProps, IState> {
           </div>
         </Header>
         <Drawer
-          title='我的菜单'
+          title='推荐课程'
           placement='left'
           closable={false}
           onClose={this.onDrawerClose}
           visible={this.state.drawVisible}
+          width={400}
         >
           <Draw />
         </Drawer>
