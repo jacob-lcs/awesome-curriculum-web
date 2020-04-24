@@ -1,6 +1,5 @@
 import React from 'react';
 import {queryLabel, submitUserLabel} from '../../api/recommend';
-import './LabelSelector.css';
 
 import { Button, message, Tag } from 'antd';
 
