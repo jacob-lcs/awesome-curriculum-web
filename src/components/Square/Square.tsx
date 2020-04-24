@@ -3,6 +3,7 @@ import React from 'react';
 import { queryCourse } from '../../api/course';
 import CourseBlock from '../CourseBlock/CourseBlock';
 import CourseInfo from '../CourseInfo/CourseInfo';
+import LabelSelector from '../LabelSelector/LabelSelector';
 
 import './Square.css';
 
@@ -19,6 +20,7 @@ interface IState {
   courseList: any[];
   courseDetailVisible: boolean;
   courseDetailData: IData;
+  labelVisible: boolean;
 }
 
 interface IProps {
@@ -38,6 +40,7 @@ class Square extends React.Component<IProps, IState> {
         time: [],
         courseNo: '',
       },
+      labelVisible: false,
     };
   }
 
@@ -54,6 +57,11 @@ class Square extends React.Component<IProps, IState> {
         this.setState({
           courseList: response.data,
         });
+        if (!response.label) {
+          this.setState({
+            labelVisible: true,
+          });
+        }
         const courses: string[] = [];
         const res: any[] = [];
         for (const item of this.state.courseList) {
@@ -171,6 +179,12 @@ class Square extends React.Component<IProps, IState> {
     });
   }
 
+  public closeSelector = () => {
+    this.setState({
+      labelVisible: false,
+    });
+  }
+
   public render() {
     return (
       <div className='square-container'>
@@ -182,6 +196,15 @@ class Square extends React.Component<IProps, IState> {
           width={400}
         >
           <CourseInfo data={this.state.courseDetailData}/>
+        </Modal>
+        <Modal
+          visible={this.state.labelVisible}
+          title='请选择您感兴趣的栏目(至少六个)'
+          closable={false}
+          width={1000}
+          footer={null}
+        >
+          <LabelSelector close={this.closeSelector} />
         </Modal>
         <div className='week'>
           <div className='week-item' />
