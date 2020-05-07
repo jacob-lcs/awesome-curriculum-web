@@ -14,3 +14,10 @@ export function submitUserLabel(data: any) {
     data,
   });
 }
+
+export function recommendCourses(page: number) {
+  return request({
+    url: '/api/recommend/recommendCourse?page=' + String(page),
+    method: 'get',
+  });
+}

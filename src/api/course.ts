@@ -55,6 +55,14 @@ const collectCourse = (data: object) => {
   });
 };
 
+const clickCourse = (data: object) => {
+  return request({
+    url: '/api/course/clickCourse',
+    method: 'post',
+    data,
+  });
+};
+
 const deleteFavorite = (data: object) => {
   return request({
     url: '/api/course/deleteFavorite',
@@ -72,4 +80,5 @@ export {
   collectCourse,
   deleteFavorite,
   getFavoriteCourse,
+  clickCourse,
 };

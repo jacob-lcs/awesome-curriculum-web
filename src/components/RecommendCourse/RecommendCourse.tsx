@@ -1,6 +1,6 @@
 import { Card, Icon, message } from 'antd';
 import React from 'react';
-import {collectCourse, deleteFavorite} from '../../api/course';
+import {clickCourse, collectCourse, deleteFavorite} from '../../api/course';
 import './RecommendCourse.css';
 
 const { Meta } = Card;
@@ -31,6 +31,7 @@ class RecommendCourse extends React.Component<IProps, IState> {
    * toDetail
    */
   public toDetail = () => {
+    clickCourse({courseId: this.props.id});
     window.open(this.props.url);
   }
 

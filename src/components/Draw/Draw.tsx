@@ -1,6 +1,7 @@
 import { Input, Tabs } from 'antd';
 import React from 'react';
 import {getFavoriteCourse, searchCourse} from '../../api/course';
+import {recommendCourses} from '../../api/recommend';
 import RecommendCourse from '../RecommendCourse/RecommendCourse';
 import './Draw.css';
 
@@ -17,6 +18,9 @@ interface IState {
   favoriteIndex: number;
   favoriteMore: boolean;
   searchContent: string;
+  recommendCourse: any;
+  recommendMore: boolean;
+  recommendPage: number;
 }
 
 class Draw extends React.Component<{}, IState> {
@@ -31,12 +35,16 @@ class Draw extends React.Component<{}, IState> {
       searchMore: true,
       favoriteMore: true,
       searchContent: '',
+      recommendCourse: [],
+      recommendMore: true,
+      recommendPage: 1,
     };
   }
 
   public componentDidMount = () => {
     this.search('');
     this.getFavorite();
+    this.getRecommend();
   }
 
   public showDrawer = () => {
@@ -87,6 +95,17 @@ class Draw extends React.Component<{}, IState> {
     this.search(value);
   }
 
+  public getRecommend = () => {
+    recommendCourses(this.state.recommendPage).then((res: any) => {
+      const recommendCourse = this.state.recommendCourse;
+      recommendCourse.push(...res.data);
+      this.setState({
+        recommendCourse,
+        recommendPage: this.state.recommendPage + 1,
+      });
+    });
+  }
+
   public getFavorite = () => {
     const favoriteCourse = this.state.favoriteCourse;
     getFavoriteCourse({page: this.state.favoriteIndex}).then((res: any) => {
@@ -116,7 +135,7 @@ class Draw extends React.Component<{}, IState> {
       <div>
         <div>
           <Tabs defaultActiveKey='1' className='courseTab'>
-            <TabPane tab='搜索及推荐' key='1'>
+            <TabPane tab='课程搜索' key='1'>
               <div className='search__block'>
                 <Search
                   placeholder='搜索课程'
@@ -164,6 +183,29 @@ class Draw extends React.Component<{}, IState> {
               {
                 this.state.favoriteMore ?
                 <div style={{textAlign: 'center', margin: 5, cursor: 'pointer'}} onClick={this.getFavorite}>
+                  <span>—————加载更多————</span>
+                </div> :
+                <div style={{textAlign: 'center', margin: 5}}>
+                  <span>—————没有更多了哦————</span>
+                </div>
+              }
+            </TabPane>
+            <TabPane tab='猜你喜欢' key='3'>
+            {
+                this.state.recommendCourse.map((item: any, index: number) => (
+                  <RecommendCourse
+                    key={index}
+                    name={item.name}
+                    from={item.resource}
+                    imgUrl={item.imgUrl}
+                    url={item.site}
+                    id={item.id}
+                    favorite={item.favorite}/>
+                ))
+              }
+              {
+                this.state.recommendMore ?
+                <div style={{textAlign: 'center', margin: 5, cursor: 'pointer'}} onClick={this.getRecommend}>
                   <span>—————加载更多————</span>
                 </div> :
                 <div style={{textAlign: 'center', margin: 5}}>
