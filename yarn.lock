@@ -967,6 +967,11 @@
     lodash "^4.17.13"
     to-fast-properties "^2.0.0"
 
+"@bugsnag/safe-json-stringify@^5.0.0":
+  version "5.0.0"
+  resolved "https://registry.npm.taobao.org/@bugsnag/safe-json-stringify/download/@bugsnag/safe-json-stringify-5.0.0.tgz#1c39847968b52f5c08b7c76754406f9d4446b292"
+  integrity sha1-HDmEeWi1L1wIt8dnVEBvnURGspI=
+
 "@cnakazawa/watch@^1.0.3":
   version "1.0.3"
   resolved "https://registry.npmjs.org/@cnakazawa/watch/-/watch-1.0.3.tgz#099139eaec7ebf07a27c1786a3ff64f39464d2ef"
@@ -4734,6 +4739,18 @@ functional-red-black-tree@^1.0.1:
   resolved "https://registry.npmjs.org/functional-red-black-tree/-/functional-red-black-tree-1.0.1.tgz#1b0ab3bd553b2a0d6399d29c0e3ea0b252078327"
   integrity sha1-GwqzvVU7Kg1jmdKcDj6gslIHgyc=
 
+fundebug-javascript@^2.4.0:
+  version "2.4.0"
+  resolved "https://registry.npm.taobao.org/fundebug-javascript/download/fundebug-javascript-2.4.0.tgz#c643d09779d6b49afba35254240399ac9828cdb3"
+  integrity sha1-xkPQl3nWtJr7o1JUJAOZrJgozbM=
+  dependencies:
+    "@bugsnag/safe-json-stringify" "^5.0.0"
+
+fundebug-revideo@^0.6.2:
+  version "0.6.2"
+  resolved "https://registry.npm.taobao.org/fundebug-revideo/download/fundebug-revideo-0.6.2.tgz#717dee68ba782d9d92a5b91218549283cc3bead5"
+  integrity sha1-cX3uaLp4LZ2SpbkSGFSSg8w76tU=
+
 gauge@~2.7.3:
   version "2.7.4"
   resolved "https://registry.npmjs.org/gauge/-/gauge-2.7.4.tgz#2c03405c7538c39d7eb37b317022e325fb018bf7"
@@ -6527,6 +6544,11 @@ locate-path@^3.0.0:
   dependencies:
     p-locate "^3.0.0"
     path-exists "^3.0.0"
+
+lodash-es@^4.17.15:
+  version "4.17.15"
+  resolved "https://registry.npm.taobao.org/lodash-es/download/lodash-es-4.17.15.tgz#21bd96839354412f23d7a10340e5eac6ee455d78"
+  integrity sha1-Ib2Wg5NUQS8j16EDQOXqxu5FXXg=
 
 lodash._reinterpolate@^3.0.0:
   version "3.0.0"

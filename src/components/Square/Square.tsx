@@ -150,6 +150,10 @@ class Square extends React.Component<IProps, IState> {
    * showCourseDetail
    */
   public showCourseDetail = (name: string) => {
+    // function test() {
+    //   test();
+    // }
+    // test();
     const courses = this.state.courseList.filter((item) => item.name === name);
     const courseDetailData = this.state.courseDetailData;
     courseDetailData.name = name;
