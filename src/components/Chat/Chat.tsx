@@ -62,7 +62,7 @@ class Chat extends React.Component<IProps, IState> {
         uploadFile(formData).then((response: any) => {
           this.state.socket.emit('send message', {
             from: getToken(),
-            content: `https://coursehelper.online:3000/${response.fileName}`,
+            content: `https://lcs.show:3000/${response.fileName}`,
             to: this.props.courseList.filter((x: any) => x.name === this.state.chooseCourse)[0],
             school: getSchool(),
             type: 'image',
@@ -227,7 +227,7 @@ class Chat extends React.Component<IProps, IState> {
   }
   public componentDidMount = () => {
     // 建立websocket连接
-    socket = io('https://coursehelper.online:5000');
+    socket = io('https://lcs.show:5000');
     socket.on('open', () => {
       console.log('客户端已连接');
       socket.emit('binding', {

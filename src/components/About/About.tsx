@@ -15,7 +15,7 @@ class Draw extends React.Component<{}, {}> {
     return (
       <div className='about-container'>
         <Avatar
-          src='https://coursehelper.online:3000/1584583732937-test.jpeg'
+          src='http://image.lcs.show/%E5%A4%B4%E5%83%8F.jpg'
           size={80}
         />
         <h2 className='about-title'>Jacob</h2>
