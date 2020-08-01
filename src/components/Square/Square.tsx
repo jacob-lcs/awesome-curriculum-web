@@ -57,11 +57,11 @@ class Square extends React.Component<IProps, IState> {
         this.setState({
           courseList: response.data,
         });
-        if (!response.label) {
-          this.setState({
-            labelVisible: true,
-          });
-        }
+        // if (!response.label) {
+        //   this.setState({
+        //     labelVisible: true,
+        //   });
+        // }
         const courses: string[] = [];
         const res: any[] = [];
         for (const item of this.state.courseList) {
